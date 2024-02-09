@@ -7,15 +7,17 @@ import {
   IonContent,
   IonButton,
   useIonRouter,
+  IonItem,
 } from '@ionic/react';
 import { useEffect, useState } from 'react';
 import { supabase } from '../../services/supabaseClient';
+import Nav from '../../components/layout/Nav';
 
 export function AccountPage() {
   const [showToast] = useIonToast();
   const [session] = useState(async () => await supabase.auth.getSession());
   const [profile, setProfile] = useState({
-    seances: [] as any,
+    email: '',
   });
   const router = useIonRouter();
 
@@ -26,21 +28,10 @@ export function AccountPage() {
   const getProfile = async () => {
     try {
       const userData = await supabase.auth.getUser();
-      const { data, error, status } = await supabase
-        .from('seanceUtilisateur')
-        .select(`libelle`)
-        .eq('sportif', userData.data.user?.id);
 
-      if (error && status !== 406) {
-        throw error;
-      }
-
-      if (data) {
-        console.log('🚀 ~ data:', data);
-        setProfile({
-          seances: data,
-        });
-      }
+      setProfile({
+        email: userData.data.user?.email || 'No profile found!',
+      });
     } catch (error: any) {
       showToast({ message: error.message, duration: 2000 });
       await supabase.auth.signOut();
@@ -51,26 +42,22 @@ export function AccountPage() {
     router.push('/login', 'forward', 'replace');
     await supabase.auth.signOut();
   };
+
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader collapse='fade'>
         <IonToolbar>
-          <IonTitle>Account</IonTitle>
+          <Nav />
+          <h1 className='ion-text-center'>Compte</h1>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className='ion-padding'>
         <div>
-          {profile.seances.map((seance: { libelle: string }) => {
-            return (
-              <span key={`${new Date().getMilliseconds()}${seance.libelle}`}>
-                {seance.libelle}
-              </span>
-            );
-          })}
+          <span>{profile.email}</span>
         </div>
         <div className='ion-text-center'>
           <IonButton fill='clear' onClick={signOut}>
-            Log Out
+            Se déconnecter
           </IonButton>
         </div>
       </IonContent>

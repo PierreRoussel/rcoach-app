@@ -34,7 +34,7 @@ function LoginForm() {
         await showToast({
           message: `Bienvenue !`,
           duration: 2000,
-          position: 'top',
+          position: 'middle',
           cssClass: 'bg-success',
         });
         router.push('/', 'root', 'replace');

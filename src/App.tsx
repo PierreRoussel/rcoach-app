@@ -16,6 +16,7 @@ import './theme/variables.css';
 import './styles/main.scss';
 /* Icons */
 import 'iconoir/css/iconoir.css';
+import Journal from './pages/journal/Journal';
 
 setupIonicReact();
 
@@ -56,6 +57,16 @@ const App: React.FC = () => {
               return session ? <Home /> : <LoginPage />;
             }}
           />
+          <Route
+            exact
+            path='/login'
+            render={() => {
+              return session ? <Home /> : <LoginPage />;
+            }}
+          />
+          <Route exact path='/journal'>
+            <Journal />
+          </Route>
           <Route exact path='/account'>
             <AccountPage />
           </Route>
