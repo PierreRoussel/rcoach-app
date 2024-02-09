@@ -17,6 +17,7 @@ import './styles/main.scss';
 /* Icons */
 import 'iconoir/css/iconoir.css';
 import Journal from './pages/journal/Journal';
+import { RecapRun } from './pages/journal/recap-run/Log';
 
 setupIonicReact();
 
@@ -64,6 +65,7 @@ const App: React.FC = () => {
               return session ? <Home /> : <LoginPage />;
             }}
           />
+          <Route exact path="/journal/:id" component={RecapRun} />
           <Route exact path='/journal'>
             <Journal />
           </Route>

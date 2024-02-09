@@ -30,18 +30,18 @@ export default function Journal() {
         <Nav />
       </IonHeader>
       <IonContent className='ion-padding'>
-        <div className='animate-in d-flex flex-column flex-justify-start flex-align-center h-100'>
+        <div className='d-flex flex-column flex-justify-start flex-align-center h-100'>
           <PageHeaderIllu>
             <img className='m-top-1' src={journal} alt='' width='210' />
             <h1>Journal</h1>
           </PageHeaderIllu>
-          <div className='content d-flex flex-column flex-align-start w-100 flex-gap-s'>
+          <div className='content animate-in  d-flex flex-column flex-align-start w-100 flex-gap-s'>
             {runs?.map((run) => {
               return (
                 <Link
                   key={run.date + run.id}
                   className='w-100'
-                  to={`/journal/recap-run?id=${run.id}`}
+                  to={`/journal/${run.id}`}
                 >
                   <Bento>
                     <div className='d-flex flex-column flex-gap'>
