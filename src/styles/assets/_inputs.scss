@@ -1,0 +1,118 @@
+@import "./variables";
+@import "./shadow-helpers";
+
+.rcoach-input {
+    background-color: $primary-white;
+    border: 0;
+    padding: 0.4em 0.8em;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.23s;
+    display: flex;
+    text-indent: .8em;
+    justify-content: flex-start;
+    align-items: center;
+
+    &:hover {
+        background-color: rgba($primary-tertiary, 0.25);
+    }
+
+    &:focus,
+    &:active {
+        outline: 1px solid $primary;
+        background-color: $secondary-white;
+    }
+}
+
+.menu {
+    position: relative;
+}
+.menu-items {
+    position: absolute;
+    isolation: isolate;
+    background-color: $secondary-white;
+    border-radius: 8px;
+    right: 0;
+    top: calc(100% + 1rem);
+    z-index: 10000;
+    box-shadow: $box-shadow-lighten;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0.5rem;
+    text-align: left;
+    width: 15rem;
+
+    a,
+    button,
+    .btn,
+    .reverse {
+        text-decoration: none;
+        width: 100% !important;
+        padding: 0.4em !important;
+        border-radius: 5px !important;
+        transition: all 0.2s;
+        text-align: left !important;
+        justify-content: flex-start !important;
+        aspect-ratio: inherit !important;
+
+        &:hover {
+            background-color: rgba(black, 0.1);
+        }
+    }
+}
+
+#headlessui-portal-root {
+    position: fixed;
+    inset: 0;
+
+    .overlay {
+        background-color: rgba(black, 0.1);
+        inset: 0;
+    }
+
+    .dialog {
+        background-color: $white;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin: auto;
+        max-width: 40vw;
+        top: 25%;
+        left: 50%;
+        z-index: 10;
+        transform: translate(-50%, 0);
+    }
+
+    .dialog-inner {
+        margin: 1rem;
+    }
+}
+
+.tab-btn-container {
+    background-color: $primary-second;
+    border-radius: calc(8px + 0.5rem);
+    padding: 0.5rem;
+    gap: 0.5rem;
+    .btn {
+        border-radius: 8px;
+        background-color: transparent;
+        box-shadow: none;
+        color: $primary;
+
+        &[aria-selected="true"] {
+            background-color: $primary;
+            color: $primary-white;
+        }
+        &[aria-selected="false"] {
+            &:hover {
+                background-color: rgba(black, 0.05);
+                color: $primary;
+            }
+        }
+    }
+}

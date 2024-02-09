@@ -1,0 +1,9 @@
+@import "../../styles/assets/variables", "../../styles/assets/animations";
+
+.bento {
+    background-color: #fdfdfd;
+    max-width: calc(100% - 2rem);
+    border-radius: 8px;
+    padding: 1rem;
+    width: 100%;
+}

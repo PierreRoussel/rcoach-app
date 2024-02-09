@@ -1,0 +1,132 @@
+@import "../../styles/assets/variables", "../../styles/assets/animations";
+
+$tracker-height: 80px;
+
+.isometric-exercice {
+    .illus {
+        flex: 2;
+    }
+}
+
+.illus {
+    $size: 25vh;
+    aspect-ratio: 1/1;
+    flex: 3;
+    position: relative;
+    background: rgba($primary-l-3, 1);
+    border-radius: 12px;
+    position: relative;
+    z-index: 1;
+
+    > i {
+        position: absolute;
+        font-size: $size;
+        color: $white;
+        mix-blend-mode: hard-light;
+        left: calc(50% - $size / 2);
+        top: calc(50% - $size / 2);
+    }
+}
+
+.g-d-checked {
+    font-size: 6rem;
+    background-color: $success;
+    color: $white;
+    padding: 0.75rem;
+    opacity: 0.8;
+}
+
+.exo-container {
+    flex: 2;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.series-tracker {
+    height: auto;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+    .label {
+        opacity: 0.8;
+        text-transform: uppercase;
+        margin-left: -0.5rem;
+        font-size: 0.8rem;
+    }
+    .numbers {
+        gap: 0.05rem;
+        letter-spacing: 0.5rem;
+        justify-content: space-between;
+        font-size: 1.28rem;
+
+        b {
+            text-align: center;
+            flex: 1;
+        }
+    }
+}
+
+.container {
+    height: $tracker-height;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    position: relative;
+}
+
+.tabs {
+    display: flex;
+    position: relative;
+    background-color: #fff;
+    padding: 0.75rem;
+    width: 100%;
+    border-radius: 99px; // just a high number to create pill effect
+    * {
+        z-index: 2;
+    }
+
+    > div {
+        flex: 1;
+    }
+}
+
+.etapes-label {
+    position: absolute;
+    top: -1rem;
+    left: 16%;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 54px;
+    flex: 1;
+    font-size: 1.25rem;
+    font-weight: 500;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all 0.25s ease-in;
+
+    &.bg-primary {
+        color: white;
+    }
+}
+
+.tab-valid {
+    color: $primary-l-4;
+}
+
+@media (max-width: 700px) {
+    .tabs {
+        transform: scale(0.75);
+    }
+}

@@ -1,0 +1,13 @@
+$box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.2);
+$box-shadow-lighten: 1px 1px 8px rgba(0, 0, 0, 0.15);
+$box-shadow-harden: 2px 2px 18px rgba(0, 0, 0, 0.3);
+$light-shadow: inset 125px 10px 150px 75px rgba(245, 245, 245, 0.035);
+
+.box-shadow {
+    box-shadow: $box-shadow;
+    &.inset-shadow {
+        box-shadow:
+            $box-shadow-harden,
+            inset 125px 10px 150px 75px rgba(245, 245, 245, 0.035);
+    }
+}

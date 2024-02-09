@@ -1,0 +1,63 @@
+@import "../../styles/assets/variables";
+
+.sign-illustration {
+    $illu-overflow:5rem;
+    background: linear-gradient(45deg, $primary-r, #fab44a);
+    width: 100vw;
+    height: calc(45% - $illu-overflow);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    margin-top: -1.4rem;
+    border-bottom-left-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+    margin-bottom: calc(1.5rem + $illu-overflow);
+    z-index: 1;
+    position: relative;
+
+    h1 {
+        color: white;
+        position: absolute;
+        top: 15%;
+        font-weight: lighter;
+        font-family: 'AROneSans';
+        letter-spacing: 2px;
+        opacity: .6;
+    }
+
+    img {
+        position: absolute;
+        color: $white;
+        height: auto;
+        width: 80%;
+        text-transform: uppercase;
+        font-weight: 400;
+        bottom: -$illu-overflow;
+    }
+
+    &::before {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(-45deg, #fab44a 0%, #fc4e39 100%);
+        transform: translate3d(0px, 20px, 0) scale(0.95);
+        filter: blur(20px);
+        opacity: 1;
+        transition: opacity 0.3s;
+        border-radius: inherit;
+    }
+}
+
+.forgot-password {
+    position: relative;
+    top: -10px;
+    margin-left: auto;
+    
+}

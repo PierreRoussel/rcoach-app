@@ -1,0 +1,32 @@
+$primary-r: #fc4e39;
+$primary: #47585c;
+$secondary: #fab44a;
+$white: lighten($primary, 65%);
+
+$primary-second: hsl(191, 13%, 82%);
+$primary-tertiary: hsl(191, 13%, 50%);
+$primary-quaternary: hsl(194, 15%, 40%);
+
+$primary-white: lighten($primary, 55%);
+$primary-light: lighten($primary, 40%);
+$primary-gradient: linear-gradient($primary, $secondary);
+$secondary-white: lighten($secondary, 15%);
+$secondary-light: lighten($secondary, 10%);
+$secondary-gradient: linear-gradient($secondary, $primary);
+
+$success: hsl(6, 97%, 68%);
+$fail: hsl(0, 5%, 70%);
+
+$grey-1: #faf7ff;
+$grey-2: hsl(262, 100%, 94%);
+$grey-3: #8e8c93;
+$grey-4: #5d5b62;
+$grey-5: #312e34;
+
+$primary-l-1: hsl(6, 97%, 95%);
+$primary-l-2: hsl(6, 97%, 90%);
+$primary-l-3: hsl(6, 97%, 85%);
+$primary-l-4: hsl(6, 97%, 75%);
+$primary-l-5: hsl(6, 97%, 70%);
+
+$primary-r-gradient: linear-gradient(90deg, $primary-r, #fab44a);

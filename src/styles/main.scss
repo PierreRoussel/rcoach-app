@@ -1,0 +1,471 @@
+@import "./assets/imports";
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+*:focus {
+  outline: none;
+}
+
+html {
+  overflow-x: hidden;
+  box-sizing: border-box;
+  touch-action: manipulation;
+  font-feature-settings:
+    "case" 1,
+    "rlig" 1,
+    "calt" 0;
+}
+
+html,
+body {
+  background: #faf7ff;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  position: relative;
+  align-items: stretch;
+  justify-content: stretch;
+  margin: 0;
+  color: darken($primary, 18%);
+
+  h1 {
+    font-size: clamp(16px, 6vw, 24px);
+  }
+  h2 {
+    font-size: clamp(14px, 5vw, 20px);
+  }
+  h3 {
+    font-size: clamp(12px, 4vw, 18px);
+  }
+}
+
+.index {
+  flex-wrap: wrap;
+  height: auto;
+}
+.content {
+  z-index: 100;
+}
+.text-s {
+  font-size: 0.75rem;
+}
+.text-m {
+  font-size: 0.9rem;
+}
+.text-l {
+  font-size: 1.15rem;
+}
+
+main {
+  padding: 1rem;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100dvh;
+  // minus nav height
+  height: calc(100vh - 50px);
+
+  .page-title-container {
+    margin-bottom: 2rem;
+    position: relative;
+    span {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      align-self: flex-start;
+      color: $primary-tertiary;
+    }
+    h1 {
+      font-size: 1.7rem;
+      margin: 0;
+      padding: 0;
+      color: $primary-tertiary;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex: 1;
+    }
+    .go-back {
+      aspect-ratio: 1/1;
+      padding: 0.5em;
+      padding-left: 0.35em;
+      left: -3rem;
+      border-color: $primary-light;
+      box-shadow: $box-shadow-lighten;
+      position: absolute;
+      color: $primary-light;
+    }
+  }
+
+  .stylized-title {
+    cursor: default;
+    font-weight: 600;
+    font-size: 1.8rem;
+    padding: 2rem 0;
+
+    a {
+      text-decoration: none;
+    }
+
+    i {
+      font-weight: 700;
+      position: relative;
+      text-transform: capitalize;
+      color: $primary;
+      font-size: 1.1em;
+      transition: all 0.2s;
+      cursor: pointer;
+
+      &::before {
+        content: "";
+        position: absolute;
+        border-bottom: 3px solid $primary;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      &:hover {
+        color: $primary-tertiary;
+        &::before {
+          border-color: $primary-tertiary;
+          border-width: 5px;
+        }
+      }
+    }
+  }
+}
+
+a {
+  color: $primary;
+  text-decoration: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  &:visited {
+    color: lighten($primary, 5%);
+  }
+}
+
+.opacity-0 {
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  pointer-events: none;
+}
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.height-screen-helper {
+  height: calc(100vh - 80px);
+}
+
+.tab-list {
+  background-color: rgba($primary-tertiary, 0.15);
+  height: fit-content;
+  width: fit-content;
+  padding: 0.3em;
+  border-radius: calc(8px + 0.3em);
+  gap: 0.5rem;
+
+  button {
+    padding: 0.5em 1em;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: transparent;
+    transition: all 0.23s;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &[aria-selected="true"] {
+      color: $primary;
+      background-color: $primary-white;
+    }
+
+    &:hover {
+      &[aria-selected="false"] {
+        background-color: rgba($primary-tertiary, 0.25);
+      }
+    }
+  }
+}
+.border-radius {
+  border-radius: 8px;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.fixed {
+  position: fixed;
+}
+.m-1 {
+  margin: 0.25rem;
+}
+.m-2 {
+  margin: 0.5rem;
+}
+.m-3 {
+  margin: 1rem;
+}
+.m-b-1 {
+  margin-block: 0.25rem;
+}
+.m-b-2 {
+  margin-block: 0.5rem;
+}
+.m-b-3 {
+  margin-block: 1rem;
+}
+.m-bot-1 {
+  margin-bottom: 0.25rem;
+}
+.m-bot-2 {
+  margin-bottom: 0.5rem;
+}
+.m-bot-3 {
+  margin-bottom: 1rem;
+}
+.m-top-1 {
+  margin-top: 0.25rem;
+}
+.m-t-auto {
+  margin-top: auto;
+}
+.m-i-1 {
+  margin-inline: 0.25rem;
+}
+.m-i-2 {
+  margin-inline: 0.5rem;
+}
+.m-i-3 {
+  margin-inline: 1rem;
+}
+.h-100 {
+  height: 100%;
+}
+.p-1 {
+  padding: 0.25rem;
+}
+.p-2 {
+  padding: 0.5rem;
+}
+.p-3 {
+  padding: 1rem;
+}
+.w-100 {
+  width: 100%;
+}
+.m-left-auto {
+  margin-left: auto;
+}
+.m-l-1 {
+  margin-left: 0.25rem;
+}
+.m-right-auto {
+  margin-right: auto;
+}
+.bg-success {
+  background-color: $success !important;
+}
+
+.bg-fail {
+  background-color: $fail !important;
+}
+
+.bg-primary {
+  background-color: $primary !important;
+}
+.bg-primary-r {
+  background-color: $primary-r !important;
+}
+.bg-primary-l-1 {
+  background-color: $primary-l-1 !important;
+}
+.bg-primary-l-2 {
+  background-color: $primary-l-2 !important;
+}
+.bg-primary-l-3 {
+  background-color: $primary-l-3 !important;
+}
+.bg-primary-l-4 {
+  background-color: $primary-l-4 !important;
+}
+.bg-primary-l-5 {
+  background-color: $primary-l-5 !important;
+}
+.bg-primary-r-gradient {
+  background: linear-gradient(90deg, $primary-r, #fab44a);
+}
+.bg-primary-second {
+  background-color: $primary-second !important;
+}
+
+.bg-primary-tertiary {
+  background-color: $primary-tertiary !important;
+}
+
+.bg-primary-quaternary {
+  background-color: $primary-quaternary !important;
+}
+
+.bg-primary-light {
+  background-color: $primary-light !important;
+}
+
+.bg-secondary {
+  background-color: $secondary !important;
+}
+
+.bg-primary-r-gradient-shadow:before {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(-45deg, #fab44a 0%, #fc4e39 100%);
+  transform: translate3d(0px, 20px, 0) scale(0.95);
+  filter: blur(20px);
+  opacity: 1;
+  transition: opacity 0.3s;
+  border-radius: inherit;
+}
+
+/* 
+* Prevents issues when the parent creates a 
+* stacking context. (For example, using the transform
+* property )
+*/
+.bg-primary-r-gradient-shadow::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: inherit;
+  border-radius: inherit;
+}
+.seance-list {
+  z-index: 10;
+}
+
+.bg-grey-1 {
+  background-color: $grey-1;
+}
+.bg-grey-2 {
+  background-color: $grey-2;
+}
+.bg-grey-3 {
+  background-color: $grey-3;
+}
+.bg-grey-4 {
+  background-color: $grey-4;
+}
+.bg-grey-5 {
+  background-color: $grey-5;
+}
+
+.color-white {
+  color: $primary-white;
+}
+.color-primary-r {
+  color: $primary-r;
+}
+.color-success {
+  color: $success;
+}
+.color-fail {
+  color: $fail;
+}
+.color-black {
+  color: $grey-5 !important;
+}
+.rounded {
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+}
+.label {
+  color: rgba($primary-tertiary, 0.85);
+  font-size: 0.75rem;
+  text-transform: none;
+  font-style: normal;
+}
+.border-primary-r {
+  border: 1px solid rgba($primary-r, 0.5);
+}
+.supabase-auth-ui_ui-container {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.5rem;
+
+  .auth-btn {
+    width: 100%;
+    text-align: center;
+    font-family: "AROneSans";
+    padding: 0.5em 1.16em;
+    background-color: $white;
+    color: $grey-4;
+    border-radius: 8px;
+    border: none;
+    text-decoration: none;
+    transition: all 0.23s;
+    display: flex;
+    box-shadow: $box-shadow;
+    cursor: pointer;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.8em;
+    font-size: 1rem;
+  }
+}
+form {
+  .supabase-auth-ui_ui-button.auth-btn {
+    background: $primary-r-gradient;
+    color: $white;
+  }
+}
+
+nav.quick-action-menu {
+  margin-top: auto;
+}
+.text-align-center {
+  text-align: center;
+}
+
+.animate-in {
+  animation: animateIn 0.3s ease 0.15s both;
+}
+
+@keyframes animateIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

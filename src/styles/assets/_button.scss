@@ -1,0 +1,83 @@
+@import "./variables";
+@import "./shadow-helpers";
+
+.btn,
+a.btn {
+    padding: 0.5em 1.16em;
+    background-color: $primary-r;
+    border-radius: 50px;
+    border: 1px solid transparent;
+    color: $primary-white;
+    text-decoration: none;
+    transition: all 0.23s;
+    display: flex;
+    box-shadow: $box-shadow;
+    cursor: pointer;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.8em;
+    font-size: 1rem;
+
+    &.btn-l {
+        font-size: 1.15rem;
+    }
+    &.btn-xl {
+        font-size: 1.4rem;
+    }
+
+    &.secondary {
+        background-color: $secondary;
+        color: inherit;
+    }
+
+    &.bg-primary-r-gradient {
+        border: 0;
+    }
+
+    &.grey {
+        background-color: $grey-2;
+        color: $grey-4;
+    }
+
+    &.tertiary {
+        background-color: $primary-tertiary;
+    }
+
+    &.fail {
+        background-color: rgba($fail, 0.8);
+    }
+
+    &.success {
+        background-color: $success;
+    }
+
+    &:visited {
+        color: $primary-white;
+    }
+
+    &.icon {
+        padding: 0.2em;
+    }
+
+    &.reverse {
+        background-color: transparent;
+        color: $primary-r;
+        border: 1px solid $primary-r;
+
+        &:hover {
+            background-color: rgba($primary-tertiary, 0.25);
+            color: white;
+            box-shadow: $box-shadow, $light-shadow;
+        }
+    }
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    &:hover {
+        background-color: $primary-l-5;
+        color: white;
+        box-shadow: $box-shadow, $light-shadow;
+    }
+}

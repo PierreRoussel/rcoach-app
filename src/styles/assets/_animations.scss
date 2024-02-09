@@ -1,0 +1,27 @@
+.transition-opacity {
+    transition: all 0.075s;
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+.opacity-100 {
+    opacity: 1;
+}
+.animated-pulse {
+    animation-name: pulse;
+    animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(.98);
+    }
+    100% {
+        transform: scale(1);
+    }
+}

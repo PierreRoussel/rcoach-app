@@ -1,0 +1,40 @@
+import React from 'react';
+import './Exercices.scss';
+import Confirm from './Confirm';
+import IsometricExercice from './IsometricExercice';
+
+export default function SeanceStepDisplay(params) {
+  const isometricExercice = () => {
+    return <IsometricExercice {...params} />;
+  };
+
+  const repetitiveExercice = () => {
+    return (
+      <>
+        <div className='d-flex flex-column flex-align-center flex-justify-start exo-container'>
+          <div className='illus bg-primary-r-gradient-shadow animated animate-in'>
+            <i className='iconoir-gym'></i>
+          </div>
+          <div className='exo-container'>
+            <h3>{params.currentExoLibelle}</h3>
+            <span className='d-flex flex-justify-center m-b-3'>
+              <span>
+                <b>{params.currentExoNbRep}</b> rép.
+              </span>
+              {params.currentExoCharge && (
+                <span className='m-l-1'>
+                  x <b>{params.currentExoCharge}kg</b>
+                </span>
+              )}
+            </span>
+          </div>
+          <Confirm onCompleteSerie={params.onCompleteSerie} />
+        </div>
+      </>
+    );
+  };
+
+  return params.currentExoTpsAction > 0
+    ? isometricExercice()
+    : repetitiveExercice();
+}

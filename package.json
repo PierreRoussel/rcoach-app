@@ -19,13 +19,16 @@
     "@capacitor/status-bar": "5.0.7",
     "@ionic/react": "^7.0.0",
     "@ionic/react-router": "^7.0.0",
+    "@supabase/supabase-js": "^2.39.3",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
+    "iconoir": "^7.3.0",
     "ionicons": "^7.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^5.3.4",
-    "react-router-dom": "^5.3.4"
+    "react-router-dom": "^5.3.4",
+    "scss": "^0.2.4"
   },
   "devDependencies": {
     "@capacitor/cli": "5.7.0",

@@ -1,0 +1,141 @@
+@import "../../styles/assets/variables";
+
+// -- vars
+$bg-color: $primary-r;
+$default-size: 3rem;
+$label-font-size: $default-size / 2;
+$label-font-size-redo: $default-size * 1.35;
+
+// -- mixins
+@mixin size($width, $height) {
+    height: $height;
+    width: $width;
+}
+
+@mixin draw-progress($progress, $color) {
+    .pie {
+        .half-circle {
+            border-color: $color;
+        }
+
+        .left-side {
+            transform: rotate($progress * 3.6deg);
+        }
+
+        @if $progress <= 50 {
+            clip: rect(auto, auto, auto, auto);
+            .right-side {
+                border-color: $primary-l-2;
+                top: -1px;
+            }
+        } @else {
+            clip: rect(auto, auto, auto, auto);
+
+            .right-side {
+                transform: rotate(180deg);
+            }
+        }
+    }
+}
+
+.succeeded {
+    .pie-wrapper {
+        .pie {
+            background: $primary-l-3;
+        }
+        .label {
+            background-color: $primary-r;
+            z-index: 100;
+            color: $white;
+        }
+        .left-side.half-circle,
+        .right-side.half-circle {
+            border-color: $primary-l-3 !important;
+        }
+    }
+}
+
+.charts-container {
+    &:after {
+        clear: both;
+        content: "";
+        display: table;
+    }
+}
+
+.pie {
+    background: $primary-l-2;
+    border-radius: 50%;
+}
+
+.pie-wrapper {
+    @include size($default-size, $default-size);
+    float: left;
+    position: relative;
+
+    &:nth-child(3n + 1) {
+        clear: both;
+    }
+
+    .pie {
+        @include size(100%, 100%);
+        clip: rect(0, $default-size, $default-size, $default-size / 2);
+        left: 0;
+        position: absolute;
+        top: 0;
+
+        .half-circle {
+            @include size(100%, 100%);
+            border: ($default-size / 8) solid $primary-r;
+            border-radius: 50%;
+            clip: rect(0, $default-size / 2, $default-size, 0);
+            left: 0;
+            position: absolute;
+            top: 0;
+        }
+    }
+
+    .label {
+        border-radius: 50%;
+        bottom: $label-font-size-redo / 14;
+        color: $primary-r;
+        cursor: default;
+        z-index: 10;
+        background: $white;
+        display: block;
+        font-size: $label-font-size;
+        left: $label-font-size-redo / 14;
+        line-height: $label-font-size-redo * 0.7;
+        position: absolute;
+        right: $label-font-size-redo / 14;
+        text-align: center;
+        top: $label-font-size-redo / 14;
+    }
+
+    &.progress-10 {
+        @include draw-progress(0, transparent);
+    }
+
+    &.progress-20 {
+        @include draw-progress(20, $primary-r);
+    }
+
+    &.progress-30 {
+        @include draw-progress(30, $primary-r);
+    }
+
+    &.progress-50 {
+        @include draw-progress(50, $primary-r);
+    }
+
+    &.progress-60 {
+        @include draw-progress(60, $primary-r);
+    }
+
+    &.progress-90 {
+        @include draw-progress(90, $primary-r);
+    }
+    &.progress-100 {
+        @include draw-progress(100, $primary-r);
+    }
+}

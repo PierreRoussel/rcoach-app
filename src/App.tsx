@@ -1,42 +1,68 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+
+import { useEffect, useState } from 'react';
+import { supabase } from './services/supabaseClient';
+import { AuthError, Session } from '@supabase/supabase-js';
+import { LoginPage } from './pages/Sign/Login';
+import { AccountPage } from './pages/Account/Account';
 import Home from './pages/Home';
 
-/* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
-
-/* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
-
-/* Optional CSS utils that can be commented out */
-import '@ionic/react/css/padding.css';
-import '@ionic/react/css/float-elements.css';
-import '@ionic/react/css/text-alignment.css';
-import '@ionic/react/css/text-transformation.css';
-import '@ionic/react/css/flex-utils.css';
-import '@ionic/react/css/display.css';
+import '@ionic/react/css/ionic.bundle.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import './styles/main.scss';
+/* Icons */
+import 'iconoir/css/iconoir.css';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const [session, setSession] = useState<Session>();
+  useEffect(() => {
+    getSessionAndSet();
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) setSession(session);
+    });
+  }, []);
+
+  async function getSessionAndSet() {
+    supabase.auth
+      .getSession()
+      .then(
+        (
+          value:
+            | { data: { session: Session }; error: null }
+            | { data: { session: null }; error: AuthError }
+            | { data: { session: null }; error: null }
+        ) => {
+          if (value.error) return console.log(value.error);
+          if (value.data.session === null) return;
+          setSession(value.data.session);
+        }
+      );
+  }
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route
+            exact
+            path='/'
+            render={() => {
+              return session ? <Home /> : <LoginPage />;
+            }}
+          />
+          <Route exact path='/account'>
+            <AccountPage />
+          </Route>
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
 
 export default App;

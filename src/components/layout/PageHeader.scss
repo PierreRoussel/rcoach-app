@@ -1,0 +1,41 @@
+@import "../../styles/assets/variables";
+
+.page-header-illu {
+    background: linear-gradient(45deg, $primary-r, #fab44a);
+    width: 100vw;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 8px;
+    margin-top: -1.4rem;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    border-bottom-left-radius: 1.5rem;
+    border-bottom-right-radius: 1.5rem;
+    margin-bottom: 1.5rem;
+    z-index: 1;
+    position: relative;
+    h1 {
+        font-size: 1.4rem;
+        color: $white;
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+    &::before {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(-45deg, #fab44a 0%, #fc4e39 100%);
+        transform: translate3d(0px, 20px, 0) scale(0.95);
+        filter: blur(20px);
+        opacity: 1;
+        transition: opacity 0.3s;
+        border-radius: inherit;
+    }
+}

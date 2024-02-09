@@ -1,0 +1,78 @@
+@import "../../styles/assets/variables", "../../styles/assets/animations";
+
+$size: 20vh;
+#countdown {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: $size;
+    width: $size;
+    text-align: center;
+}
+
+#countdown-number {
+    color: #444;
+    font-size: 48px;
+    width: $size;
+    text-align: center;
+    font-weight: 200;
+    letter-spacing: -1px;
+}
+
+.countdown {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: $size;
+    height: $size;
+    transform: rotateY(-180deg) rotateZ(-90deg);
+}
+
+.fast-forward-iso-chrono {
+    position: absolute;
+    bottom: -4rem;
+    left: calc(50% - 1.25rem);
+    background-color: rgba($fail, 0.25);
+    cursor: pointer;
+    border-radius: 50%;
+    padding: 0.5rem;
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    i {
+        font-size: 2rem;
+    }
+}
+
+.countdown circle {
+    stroke-width: 12px;
+    stroke: #f2f5f7;
+    fill: none;
+    box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2);
+    transition: stroke-dashoffset 1s ease-in-out;
+}
+
+.countdown .countdown-circle {
+    stroke-dasharray: 565px;
+    stroke-dashoffset: 565px;
+    stroke-linecap: round;
+    stroke: $primary-r;
+}
+
+.complete-repos {
+    border: 0;
+    background-color: $primary-r;
+    color: white;
+    border-radius: 50%;
+    height: $size;
+    width: $size;
+    aspect-ratio: 1/1;
+    font-size: 4rem;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    justify-content: center;
+}
