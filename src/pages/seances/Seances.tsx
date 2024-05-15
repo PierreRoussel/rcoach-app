@@ -1,0 +1,57 @@
+import { useEffect, useState } from 'react';
+import { IonContent, IonHeader, IonPage } from '@ionic/react';
+import { Link } from 'react-router-dom';
+
+import { supabase } from '../../services/supabaseClient';
+import PageHeaderIllu from '../../components/layout/PageHeaderIllu';
+import Bento from '../../components/layout/Bento';
+import Avatar from '../../components/layout/Avatar';
+
+import fusee from '../../styles/images/fusee.png';
+import Nav from '../../components/layout/Nav';
+
+export default function Seances() {
+  const [seances, setSeances] = useState<any[] | null>(null);
+
+  useEffect(() => {
+    const getData = async () => {
+      const { data } = await supabase.from('seanceUtilisateur').select('*');
+      console.log('🚀 ~ data:', data);
+      setSeances(data);
+    };
+    getData();
+  }, []);
+
+  return (
+    <IonPage>
+      <IonHeader>
+        <Nav />
+      </IonHeader>
+      <IonContent className='ion-padding'>
+        <div className='d-flex flex-column flex-justify-start flex-align-center h-100'>
+          <PageHeaderIllu>
+            <img className='m-top-1' src={fusee} alt='' width='210' />
+            <h1>Séances</h1>
+          </PageHeaderIllu>
+          <div className='content animate-in d-flex flex-column flex-align-start w-100 flex-gap-s'>
+            {seances?.map((seance) => {
+              return (
+                <Link
+                  className='w-100 color-black'
+                  to={`seances/seance?id=${seance.id}`}
+                  key={seance.id}
+                >
+                  <Bento className='d-flex flex-justify-start flex-align-center flex-gap'>
+                    <Avatar chain={seance.libelle} />
+                    {seance.libelle}
+                    <i className='iconoir-nav-arrow-right m-left-auto'></i>
+                  </Bento>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </IonContent>
+    </IonPage>
+  );
+}
