@@ -9,14 +9,21 @@ import Avatar from '../../components/layout/Avatar';
 
 import fusee from '../../styles/images/fusee.png';
 import Nav from '../../components/layout/Nav';
+import { loginStore } from '../../stores/login.store';
+import { User } from '@supabase/supabase-js';
 
 export default function Seances() {
   const [seances, setSeances] = useState<any[] | null>(null);
 
   useEffect(() => {
     const getData = async () => {
-      const { data } = await supabase.from('seanceUtilisateur').select('*');
-      console.log('🚀 ~ data:', data);
+      const user: User = await loginStore.get('user');
+
+      const { data } = await supabase
+        .from('seanceUtilisateur')
+        .select('*')
+        .eq('sportif', user.id)
+        .order('created_at', { ascending: false });
       setSeances(data);
     };
     getData();
@@ -38,7 +45,7 @@ export default function Seances() {
               return (
                 <Link
                   className='w-100 color-black'
-                  to={`seances/seance?id=${seance.id}`}
+                  to={`seance/${seance.id}`}
                   key={seance.id}
                 >
                   <Bento className='d-flex flex-justify-start flex-align-center flex-gap'>

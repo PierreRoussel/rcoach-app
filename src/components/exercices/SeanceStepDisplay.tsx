@@ -1,9 +1,8 @@
-import React from 'react';
 import './Exercices.scss';
 import Confirm from './Confirm';
 import IsometricExercice from './IsometricExercice';
 
-export default function SeanceStepDisplay(params) {
+export default function SeanceStepDisplay(params: any) {
   const isometricExercice = () => {
     return <IsometricExercice {...params} />;
   };

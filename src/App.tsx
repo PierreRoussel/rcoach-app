@@ -20,6 +20,8 @@ import Journal from './pages/journal/Journal';
 import { RecapRun } from './pages/journal/recap-run/Log';
 import Seances from './pages/seances/Seances';
 import { initStores } from './stores/store.initer';
+import { Seance } from './pages/seances/seance/Seance';
+import { RunPage } from './pages/seances/run/Run';
 
 setupIonicReact();
 
@@ -73,7 +75,8 @@ const App: React.FC = () => {
           <Route exact path='/journal'>
             <Journal />
           </Route>
-          <Route exact path='/seance/:id' component={RecapRun} />
+          <Route exact path='/seance/:id' component={Seance} />
+          <Route exact path='/run/:id' component={RunPage} />
           <Route exact path='/seance'>
             <Seances />
           </Route>

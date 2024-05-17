@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from 'react';
 import './IsoChronometre.scss';
-import { fancyTimeFormat } from '@/utils/shared/date';
 import audioFile from './timercomplete01.mp3';
+import { fancyTimeFormat } from '../../utils/shared/date';
 
-export default function IsoChronometre(params) {
-  const audioRef = useRef(undefined);
-  const countdownNumberEl = useRef(undefined);
+export default function IsoChronometre(params: any) {
+  const audioRef: any = useRef(undefined);
+  const countdownNumberEl: any = useRef(undefined);
   const [isComplete, setIsComplete] = useState(false);
   const [playState, setPlayState] = useState(false);
-  const circle = useRef(undefined);
-  let countdown = params.timing || 3;
+  const circle: any = useRef(undefined);
+  let countdown: any = params.timing || 3;
   let newcountdown = countdown;
   let maxoffset = 565;
   let offset = 0;
-  let tick = null;
+  let tick: any = null;
 
   useEffect(() => {
     return () => {
@@ -30,7 +30,7 @@ export default function IsoChronometre(params) {
         if (offset - maxoffset / countdown >= -Math.abs(maxoffset)) {
           offset = offset - maxoffset / countdown;
           if (offset < -maxoffset + 10) {
-            audioRef.current.play();
+            (audioRef as any).current.play();
           }
         } else {
           offset = -Math.abs(maxoffset);
@@ -53,7 +53,7 @@ export default function IsoChronometre(params) {
       <audio ref={audioRef}>
         <source
           id='audio-player'
-          name='audio-player'
+          // name='audio-player'
           src={audioFile}
           type='audio/mp3'
         />

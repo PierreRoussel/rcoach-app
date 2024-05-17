@@ -1,9 +1,9 @@
 import React from 'react';
 import './Exercices.scss';
-import SuccessCheck from '@/components/shared/checks/SuccessCheck';
-import { getTimeDiffInSeconds, fancyTimeFormat } from '@/utils/shared/date';
+import { fancyTimeFormat, getTimeDiffInSeconds } from '../../utils/shared/date';
+import SuccessCheck from '../shared/checks/SuccessCheck';
 
-export default function CompletedSeance(params) {
+export default function CompletedSeance(params: any) {
   const resumee = {
     temps_total: getTimeDiffInSeconds(params.beginTime, new Date()),
   };

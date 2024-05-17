@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import './Chronometre.scss';
-import { fancyTimeFormat } from '@/utils/shared/date';
 import audioFile from './timercomplete01.mp3';
+import { fancyTimeFormat } from '../../utils/shared/date';
 
-export default function Chronometre(params) {
-  const countdownNumberEl = useRef(undefined);
-  const audioRef = useRef(undefined);
-  const circle = useRef(undefined);
+export default function Chronometre(params: any) {
+  const countdownNumberEl: any = useRef(undefined);
+  const audioRef: any = useRef(undefined);
+  const circle: any = useRef(undefined);
 
   const [isComplete, setIsComplete] = useState(false);
 
@@ -14,7 +14,7 @@ export default function Chronometre(params) {
   let newcountdown = countdown;
   let maxoffset = 565;
   let offset = 0;
-  let tick = null;
+  let tick: any = null;
 
   useEffect(() => {
     if (countdownNumberEl.current && circle.current) {
@@ -33,7 +33,7 @@ export default function Chronometre(params) {
         if (offset - maxoffset / countdown >= -Math.abs(maxoffset)) {
           offset = offset - maxoffset / countdown;
           if (offset < -maxoffset + 10) {
-            audioRef.current.play();
+            (audioRef.current! as any).play();
           }
         } else {
           offset = -Math.abs(maxoffset);
@@ -41,8 +41,12 @@ export default function Chronometre(params) {
           setIsComplete(true);
         }
 
-        countdownNumberEl.current.textContent = fancyTimeFormat(newcountdown);
-        circle.current.setAttribute('style', `stroke-dashoffset: ${offset}px`);
+        (countdownNumberEl as any).current.textContent =
+          fancyTimeFormat(newcountdown);
+        (circle as any).current.setAttribute(
+          'style',
+          `stroke-dashoffset: ${offset}px`
+        );
       }, 1000);
     }
   };
@@ -62,7 +66,10 @@ export default function Chronometre(params) {
     }
 
     offset = 0;
-    circle.current.setAttribute('style', `stroke-dashoffset: ${offset}px`);
+    (circle as any).current.setAttribute(
+      'style',
+      `stroke-dashoffset: ${offset}px`
+    );
     clearInterval(tick);
     tick = null;
     initInterval();
@@ -73,7 +80,7 @@ export default function Chronometre(params) {
       <audio ref={audioRef}>
         <source
           id='audio-player'
-          name='audio-player'
+          // name='audio-player'
           src={audioFile}
           type='audio/mp3'
         />

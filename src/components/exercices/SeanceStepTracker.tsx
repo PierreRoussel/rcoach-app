@@ -1,7 +1,7 @@
 import React from 'react';
 import './Exercices.scss';
 
-export default function SeanceStepTracker(params) {
+export default function SeanceStepTracker(params: any) {
   const tabs = [];
   for (let index = 0; index <= params.stepNumber; index++) {
     if (index === params.stepNumber) {

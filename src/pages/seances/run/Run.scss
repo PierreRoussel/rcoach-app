@@ -1,0 +1,24 @@
+.preview {
+    $preview-bg:  hsl(6, 97%, 95%);
+    position: absolute;
+    flex-wrap: wrap;
+    top: 3rem;
+    text-align: center;
+    justify-content: center;
+    max-width: 80vw;
+    right: 0;
+    width: 100%;
+    left: 0;
+    padding: 0.5rem;
+    border: 1px solid hsl(6, 97%, 90%);
+    border-radius: 8px;
+    margin: 0 auto;
+    font-size: 0.8rem;
+    background-color: $preview-bg;
+
+    i {
+        font-size: 0.7rem;
+        margin-right: 0.2rem;
+        margin-top: 2px;
+    }
+}
