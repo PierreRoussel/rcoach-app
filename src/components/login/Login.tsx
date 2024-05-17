@@ -1,15 +1,13 @@
 import './Login.scss';
-import { supabase } from '../../services/supabaseClient';
+import { signInWithPasswordAndStore } from '../../services/login.service';
 import {
   IonButton,
-  IonIcon,
   IonInput,
   useIonLoading,
   useIonRouter,
   useIonToast,
 } from '@ionic/react';
 import { useState } from 'react';
-import { eye, lockClosed } from 'ionicons/icons';
 function LoginForm() {
   const router = useIonRouter();
   const [email, setEmail] = useState('');
@@ -19,7 +17,6 @@ function LoginForm() {
   const [showToast] = useIonToast();
 
   async function login(e: React.FormEvent<HTMLFormElement>) {
-    console.log('🚀 ~ e:', e);
     e.preventDefault();
     await showLoading();
 
@@ -29,7 +26,7 @@ function LoginForm() {
     };
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword(params);
+      const { data, error } = await signInWithPasswordAndStore(params);
       if (data.user) {
         await showToast({
           message: `Bienvenue !`,
@@ -72,7 +69,6 @@ function LoginForm() {
           placeholder='Mot de passe'
           value={password}
           onIonInput={(e) => {
-            console.log('e', e);
             setPassword(e.detail.value ?? '');
           }}
         />

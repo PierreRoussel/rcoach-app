@@ -19,10 +19,13 @@ import 'iconoir/css/iconoir.css';
 import Journal from './pages/journal/Journal';
 import { RecapRun } from './pages/journal/recap-run/Log';
 import Seances from './pages/seances/Seances';
+import { initStores } from './stores/store.initer';
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  initStores();
+
   const [session, setSession] = useState<Session>();
   useEffect(() => {
     getSessionAndSet();
@@ -66,11 +69,11 @@ const App: React.FC = () => {
               return session ? <Home /> : <LoginPage />;
             }}
           />
-          <Route exact path="/journal/:id" component={RecapRun} />
+          <Route exact path='/journal/:id' component={RecapRun} />
           <Route exact path='/journal'>
             <Journal />
           </Route>
-          <Route exact path="/seance/:id" component={RecapRun} />
+          <Route exact path='/seance/:id' component={RecapRun} />
           <Route exact path='/seance'>
             <Seances />
           </Route>
