@@ -37,7 +37,7 @@ export const RecapRun: React.FC<RecapRunPageProps> = ({ match }) => {
     const getExos = async (seanceId: number, logs: any) => {
       const { data } = await supabase
         .from('seanceExo')
-        .select('*, exo(libelle)')
+        .select('*, exo(name_en,name_fr)')
         .eq('seance', seanceId);
       const orderedExos: any[] | undefined = data?.sort(
         (a: any, b: any) => a.seanceIndex - b.seanceIndex

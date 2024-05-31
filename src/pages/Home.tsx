@@ -22,7 +22,7 @@ const Home: React.FC = () => {
                 <i className='label'>Actualités</i>
                 <span>
                   L'application est également accessible sur le web,{' '}
-                  <a className='color-primary-r' href='https://rcoach.app'>
+                  <a target='_blank' className='color-primary-r' href='https://rcoach-admin-react.vercel.app'>
                     rcoach.app
                   </a>
                 </span>

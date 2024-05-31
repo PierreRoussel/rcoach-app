@@ -8,6 +8,7 @@ import Nav from '../../../components/layout/Nav';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../../services/supabaseClient';
 import { orderStepsBySeanceIndex } from '../run/run.utils';
+import ExerciceImg from '../../../components/exercices/Illustration';
 
 interface SeancePageProps
   extends RouteComponentProps<{
@@ -22,7 +23,7 @@ export const Seance: React.FC<SeancePageProps> = ({ match }) => {
     const getData = async () => {
       const { data } = await supabase
         .from('seanceExo')
-        .select(`*, seanceUtilisateur(libelle), exo(libelle)`)
+        .select(`*, seanceUtilisateur(libelle), exo(name_en,name_fr,images)`)
         .eq('seance', runId);
       setSeance(orderStepsBySeanceIndex(data as any));
     };
@@ -50,8 +51,13 @@ export const Seance: React.FC<SeancePageProps> = ({ match }) => {
                     }
                   >
                     <div className='w-100 border-radius d-flex flex-column flex-justify-center flex-align-center '>
-                      <h3 className='m-b-1 m-i-3'>{exo.exo.libelle}</h3>
+                      <h3 className='m-b-1 m-i-3'>
+                        {exo.exo.name_fr || exo.exo.name_en}
+                      </h3>
                       <div className='d-flex flex-row flex-align-center flex-gap'>
+                        <div className='illu-container'>
+                          <ExerciceImg exoImages={exo.exo.images} />
+                        </div>
                         <div className='d-flex flex-align-center'>
                           <span>{exo.nb_series} séries</span>
                         </div>

@@ -10,6 +10,8 @@ import Chronometre from '../../../components/exercices/Chronometre';
 import SeanceStepDisplay from '../../../components/exercices/SeanceStepDisplay';
 import SeanceStepTracker from '../../../components/exercices/SeanceStepTracker';
 import CompletedSeance from '../../../components/exercices/CompletedSeance';
+import { POST } from '../../../services/run.service';
+import { getTimeDiffInSeconds } from '../../../utils/shared/date';
 
 interface RunPageProps
   extends RouteComponentProps<{
@@ -30,7 +32,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
     const getData = async () => {
       const { data } = await supabase
         .from('seanceExo')
-        .select(`*, seanceUtilisateur(libelle), exo(libelle,id)`)
+        .select(`*, seanceUtilisateur(libelle), exo(name_en, name_fr, images,rowid)`)
         .eq('seance', seanceId);
       setSeance(data);
       setBuildedSeance(buildStepsFromSeance(data as any));
@@ -111,12 +113,12 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   };
 
   const endRun = (run: Run) => {
-    // POST(
-    //   seanceId,
-    //   logs,
-    //   getTimeDiffInSeconds(run.beginTime, new Date()),
-    //   new Date()
-    // );
+    POST(
+      seanceId,
+      logs,
+      getTimeDiffInSeconds(run.beginTime, new Date()),
+      new Date()
+    );
   };
 
   const getTransition = () => {
@@ -209,10 +211,11 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
           {!inTransition && !!run && !run.is_complete && (
             <>
               <SeanceStepDisplay
-                currentExoLibelle={currExo.exo.libelle}
+                currentExoLibelle={currExo.exo.name_fr || currExo.exo.name_en}
                 currentExoNbRep={currExo.nb_reps}
                 currentExoCharge={currExo.charge}
                 currentExoTpsAction={currExo.temps_action || 0}
+                currentExoImage={currExo.exo.images}
                 onCompleteSerie={onCompleteSerie}
                 currentExo={currExo}
               />
