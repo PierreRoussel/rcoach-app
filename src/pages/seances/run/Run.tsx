@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import './Run.scss';
 import { RouteComponentProps } from 'react-router';
-import { IonAlert, IonContent, IonHeader, IonPage } from '@ionic/react';
+import {
+  IonActionSheet,
+  IonAlert,
+  IonContent,
+  IonHeader,
+  IonPage,
+} from '@ionic/react';
 import Nav from '../../../components/layout/Nav';
 import { buildStepsFromSeance, isSeanceAtBeginning } from './run.utils';
 import { supabase } from '../../../services/supabaseClient';
@@ -77,7 +83,6 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
     if (actualRun.currentStepExoSerie >= currentExo.nb_series) {
       // Pas de prochain exercice mais une prochaine étape, on continue
       if (actualRun.seance[actualRun.currentStep + 1]) {
-        setIsLastSerie(true);
         return {
           ...actualRun,
           currentStepExo: 0,
@@ -101,6 +106,8 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   };
 
   const nextStep = () => {
+    checkIfLastSerieAndSetState();
+
     setInTransition(false);
     const nextStep = getNextStep(run);
     if (nextStep.is_complete) endRun(nextStep);
@@ -130,8 +137,6 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   };
 
   const getTransition = () => {
-    console.log('get transi');
-
     return (
       <Chronometre
         onContinue={() => nextStep()}
@@ -140,8 +145,22 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
     );
   };
 
-  const isLastSerie = () => {
-    if (run.currentStepExoSerie === currExo.nb_series) return true;
+  const getIsLastSerie = () => {
+    return checkIfLastSerie();
+  };
+
+  const checkIfLastSerieAndSetState = () => {
+    const isLast = checkIfLastSerie(1);
+    console.log("🚀 ~ isLast:", isLast)
+    if (isLast) {
+      return setIsLastSerie(true);
+    }
+    return setIsLastSerie(false);
+  };
+
+  const checkIfLastSerie = (modifier = 0) => {
+    if (!run) return false;
+    if (run.currentStepExoSerie === currExo.nb_series - modifier) return true;
     return false;
   };
 
@@ -224,10 +243,9 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
       <IonHeader>
         <Nav />
       </IonHeader>
-      <IonAlert
+      <IonActionSheet
         isOpen={isOpen}
-        header='Quelle était la difficulté ?'
-        message="L'application ajuste vos séries selon votre ressenti. (Trop facile, niveau suivant, Parfait, rester au niveau actuel, Trop dur, niveau précédent.)"
+        header='Diffcultée ressentie'
         buttons={[
           {
             text: 'Trop dur',
@@ -243,12 +261,12 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
           },
         ]}
         onDidDismiss={({ detail }) => setCompleteSerie(detail.role || null)}
-      ></IonAlert>
+      ></IonActionSheet>
       <IonContent className='ion-padding'>
         <div className='animate-in h-100 d-flex flex-column flex-justify-center flex-align-center'>
           <h2 className='text-align-center m-b-1'>{`Entraînement du ${new Date().toLocaleDateString()}`}</h2>
           <h3 className='text-align-center'>{getTitle()}</h3>
-          {!!run && !run.is_complete && isLastSerie() && (
+          {!!run && !run.is_complete && getIsLastSerie() && (
             <div className='preview d-flex flex-align-center'>
               <i className='iconoir-arrow-right'></i>
               <span className='text-s'>
