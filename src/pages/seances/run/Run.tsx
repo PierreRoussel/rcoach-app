@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './Run.scss';
 import { RouteComponentProps } from 'react-router';
-import { IonContent, IonHeader, IonPage } from '@ionic/react';
+import { IonAlert, IonContent, IonHeader, IonPage } from '@ionic/react';
 import Nav from '../../../components/layout/Nav';
 import { buildStepsFromSeance, isSeanceAtBeginning } from './run.utils';
 import { supabase } from '../../../services/supabaseClient';
@@ -27,12 +27,17 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   const [currExo, setCurrExo] = useState<any>(null);
   const [nextExo, setNextExo] = useState<any>(null);
   const [logs, setLogs] = useState<any>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [serieLog, setSerieLog] = useState({});
+  const [islastSerie, setIsLastSerie] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
       const { data } = await supabase
         .from('seanceExo')
-        .select(`*, seanceUtilisateur(libelle), exo(name_en, name_fr, images,rowid)`)
+        .select(
+          `*, seanceUtilisateur(libelle), exo(name_en, name_fr, images,rowid)`
+        )
         .eq('seance', seanceId);
       setSeance(data);
       setBuildedSeance(buildStepsFromSeance(data as any));
@@ -58,7 +63,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   };
 
   const getNextStep = (actualRun: Run) => {
-    if (!actualRun.seance[actualRun.currentStep])
+    if (!actualRun.seance[actualRun.currentStep]) {
       return {
         ...actualRun,
         currentStepExo: 0,
@@ -66,11 +71,13 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
         currentStep: actualRun.currentStep + 1,
         is_complete: true,
       };
+    }
     const currentExo =
       actualRun.seance[actualRun.currentStep].exo[actualRun.currentStepExo];
     if (actualRun.currentStepExoSerie >= currentExo.nb_series) {
       // Pas de prochain exercice mais une prochaine étape, on continue
       if (actualRun.seance[actualRun.currentStep + 1]) {
+        setIsLastSerie(true);
         return {
           ...actualRun,
           currentStepExo: 0,
@@ -78,6 +85,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
           currentStep: actualRun.currentStep + 1,
         };
       }
+
       return {
         ...actualRun,
         currentStepExo: 0,
@@ -122,6 +130,8 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   };
 
   const getTransition = () => {
+    console.log('get transi');
+
     return (
       <Chronometre
         onContinue={() => nextStep()}
@@ -143,19 +153,49 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   };
 
   const onCompleteSerie = (failed?: boolean) => {
-    setLogs((prev: any) => [
-      ...prev,
-      {
+    if (!currExo.est_superset) {
+      if (islastSerie) {
+        // si derniere serie, on cache les logs et on affiche l'alert de RPE
+        setSerieLog({
+          seanceIndex: currExo.seanceIndex,
+          exoStep: run.currentStepExo,
+          exoId: currExo.exo.id,
+          charge: currExo.charge,
+          reps: failed ? 0 : currExo.nb_reps,
+          is_failed: !!failed,
+        });
+        return setIsOpen(true);
+      }
+      // sinon on complete simplement
+      return setCompleteSerie(null, {
         seanceIndex: currExo.seanceIndex,
         exoStep: run.currentStepExo,
         exoId: currExo.exo.id,
         charge: currExo.charge,
         reps: failed ? 0 : currExo.nb_reps,
         is_failed: !!failed,
-      },
-    ]);
-    if (!currExo.est_superset) return setInTransition(true);
-    getSupersetNextStep();
+      });
+    }
+    return getSupersetNextStep();
+  };
+
+  const setCompleteSerie = (rpe: string | null, logs?: any) => {
+    if (rpe) {
+      // si rpe, alors les logs sont en cache et on a un rpe en plus
+      setIsOpen(false);
+      setIsLastSerie(false);
+      setLogs((prev: any) => [
+        ...prev,
+        {
+          ...serieLog,
+          rpe: rpe || 5,
+        },
+      ]);
+    } else {
+      // si pas de rpe, on prend le param de logs
+      setLogs((prev: any) => [...prev, logs]);
+    }
+    return setInTransition(true);
   };
 
   const getSupersetNextStep = () => {
@@ -184,6 +224,26 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
       <IonHeader>
         <Nav />
       </IonHeader>
+      <IonAlert
+        isOpen={isOpen}
+        header='Quelle était la difficulté ?'
+        message="L'application ajuste vos séries selon votre ressenti. (Trop facile, niveau suivant, Parfait, rester au niveau actuel, Trop dur, niveau précédent.)"
+        buttons={[
+          {
+            text: 'Trop dur',
+            role: 'hard',
+          },
+          {
+            text: 'Parfait',
+            role: 'perfect',
+          },
+          {
+            text: 'Trop facile',
+            role: 'easy',
+          },
+        ]}
+        onDidDismiss={({ detail }) => setCompleteSerie(detail.role || null)}
+      ></IonAlert>
       <IonContent className='ion-padding'>
         <div className='animate-in h-100 d-flex flex-column flex-justify-center flex-align-center'>
           <h2 className='text-align-center m-b-1'>{`Entraînement du ${new Date().toLocaleDateString()}`}</h2>

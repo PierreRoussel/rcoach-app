@@ -84,7 +84,7 @@ export const RecapRun: React.FC<RecapRunPageProps> = ({ match }) => {
                         exo.seanceIndex,
                         exo.nb_reps
                       )}
-                      exoLibelle={exo.exo.libelle}
+                      exoLibelle={exo.exo.name_fr || exo.exo.name_en}
                       tpsRepos={exo.temps_repos}
                       tpsAction={exo.temps_action}
                       charge={exo.charge}

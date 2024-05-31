@@ -63,12 +63,12 @@ export const RecapRun: React.FC<RecapRunPageProps> = ({ match }) => {
               </h1>
               <span className='text-m d-flex flex-justify-start flex-align-center'>
                 <i className='iconoir-gym m-i-1'></i>
-                {getDateString(new Date(run.date))},{' '}
+                {getDateString(new Date(run.date))},{' de '}
                 {new Date(run.created_at).toLocaleTimeString('fr', {
                   hour: '2-digit',
                   minute: '2-digit',
                 })}
-                {' - '}
+                {' à '}
                 {run.end_time.toLocaleTimeString('fr', {
                   hour: '2-digit',
                   minute: '2-digit',
@@ -84,7 +84,7 @@ export const RecapRun: React.FC<RecapRunPageProps> = ({ match }) => {
                         exo.seanceIndex,
                         exo.nb_reps
                       )}
-                      exoLibelle={exo.exo.libelle}
+                      exoLibelle={exo.exo.name_fr || exo.exo.name_en}
                       tpsRepos={exo.temps_repos}
                       tpsAction={exo.temps_action}
                       charge={exo.charge}
