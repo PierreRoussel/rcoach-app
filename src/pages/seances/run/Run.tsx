@@ -151,7 +151,6 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
 
   const checkIfLastSerieAndSetState = () => {
     const isLast = checkIfLastSerie(1);
-    console.log("🚀 ~ isLast:", isLast)
     if (isLast) {
       return setIsLastSerie(true);
     }
@@ -246,6 +245,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
       <IonActionSheet
         isOpen={isOpen}
         header='Diffcultée ressentie'
+        className="rcoach-action-sheet"
         buttons={[
           {
             text: 'Trop dur',
@@ -260,7 +260,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
             role: 'easy',
           },
         ]}
-        onDidDismiss={({ detail }) => setCompleteSerie(detail.role || null)}
+        onDidDismiss={({ detail }) => setCompleteSerie(detail.role || 'perfect')}
       ></IonActionSheet>
       <IonContent className='ion-padding'>
         <div className='animate-in h-100 d-flex flex-column flex-justify-center flex-align-center'>

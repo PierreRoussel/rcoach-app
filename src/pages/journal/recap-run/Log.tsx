@@ -1,5 +1,5 @@
-import { Suspense, useEffect, useState } from 'react';
-import { getNbSerieSucceeded, groupByExercice } from './logs.utils';
+import { Suspense, useEffect, useRef, useState } from 'react';
+import { getNbSerieSucceeded, getRpe, groupByExercice } from './logs.utils';
 
 import './RecapRun.scss';
 import { supabase } from '../../../services/supabaseClient';
@@ -7,7 +7,16 @@ import { RouteComponentProps } from 'react-router';
 import { getDateString, getDayPartString } from '../../../utils/shared/date';
 import Bento from '../../../components/layout/Bento';
 import ExoRecap from '../../../components/journal/ExoRecap';
-import { IonContent, IonHeader, IonPage } from '@ionic/react';
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonList,
+  IonModal,
+  IonPage,
+  IonPopover,
+} from '@ionic/react';
 import Nav from '../../../components/layout/Nav';
 
 interface RecapRunPageProps
@@ -19,6 +28,8 @@ export const RecapRun: React.FC<RecapRunPageProps> = ({ match }) => {
   const [run, setRun] = useState<any | null>();
   const [seance, setSeance] = useState<any[]>([]);
   const [logs, setLogs] = useState<any[]>([]);
+
+  const modal = useRef<HTMLIonModalElement>(null);
 
   const runId = match.params.id || '0';
   useEffect(() => {
@@ -68,7 +79,7 @@ export const RecapRun: React.FC<RecapRunPageProps> = ({ match }) => {
                   hour: '2-digit',
                   minute: '2-digit',
                 })}
-                {' à '}
+                {' à '}²
                 {run.end_time.toLocaleTimeString('fr', {
                   hour: '2-digit',
                   minute: '2-digit',
@@ -80,21 +91,45 @@ export const RecapRun: React.FC<RecapRunPageProps> = ({ match }) => {
                     <ExoRecap
                       nbSerieGoal={exo.nb_series}
                       nbSerieDone={getNbSerieSucceeded(
-                        logs,
-                        exo.seanceIndex,
-                        exo.nb_reps
+                        logs[exo.seanceIndex - 1]
                       )}
                       exoLibelle={exo.exo.name_fr || exo.exo.name_en}
                       tpsRepos={exo.temps_repos}
                       tpsAction={exo.temps_action}
                       charge={exo.charge}
                       reps={exo.nb_reps}
+                      rpe={getRpe(logs, exo.seanceIndex)}
                     />
                   </Bento>
                 ))}
               </div>
             </>
           )}
+          <IonButton size='large' fill='clear' id='popover-button-infos'>
+            <i slot='icon-only' className='iconoir-info-circle'></i>
+          </IonButton>
+          <IonModal
+            ref={modal}
+            trigger='popover-button-infos'
+            initialBreakpoint={0.25}
+          >
+            <IonContent className='ion-padding'>
+              <IonList>
+                <IonItem lines="none" detail={false}>
+                  <div className='shower easy'></div> Exercice réalisé
+                  facilement, encore des reps en réserve
+                </IonItem>
+                <IonItem lines="none" detail={false}>
+                  <div className='shower perfect'></div> Diffculté parfaite, ni
+                  plus ni moins.
+                </IonItem>
+                <IonItem lines="none" detail={false}>
+                  <div className='shower hard'></div> En échec ou incapable
+                  d'aller plus loin pour le moment.
+                </IonItem>
+              </IonList>
+            </IonContent>
+          </IonModal>
         </div>
       </IonContent>
     </IonPage>

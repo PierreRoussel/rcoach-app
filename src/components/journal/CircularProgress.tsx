@@ -1,4 +1,3 @@
-import React from 'react';
 import './Journal.scss';
 
 export default function CircularProgress(params: { percentDone: number }) {

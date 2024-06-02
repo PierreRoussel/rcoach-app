@@ -1,22 +1,22 @@
-import React from 'react';
 import CircularProgress from './CircularProgress';
 
 export default function ExoRecap(params: {
   exoLibelle: string;
   tpsRepos: number;
   nbSerieDone: number;
-  reps: number | null;
+  reps?: number;
   nbSerieGoal: number;
-  charge: number | null;
-  tpsAction: number | null;
+  charge?: number;
+  tpsAction?: number;
+  rpe?: string;
 }) {
   const percentDone = (params.nbSerieDone / params.nbSerieGoal) * 100;
   const isSucceeded = params.nbSerieDone === params.nbSerieGoal;
   return (
     <div
-      className={`d-flex flex-justify-start flex-align-center  w-100 flex-gap ${
+      className={`exo-recap d-flex flex-justify-start flex-align-center  w-100 flex-gap ${
         isSucceeded ? 'succeeded' : ''
-      }`}
+      } ${params.rpe || 'perfect'}`}
     >
       <div className='d-flex flex-justify-start flex-align-center'>
         <CircularProgress percentDone={percentDone} />

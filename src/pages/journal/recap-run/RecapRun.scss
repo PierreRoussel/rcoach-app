@@ -1,3 +1,46 @@
 .recap-exos {
     margin-top: 2rem;
 }
+
+#popover-button-infos {
+    --offset-y: 200px;
+    --offset-y: 509px;
+    position: absolute;
+    right: -1rem;
+    bottom: 0;
+    font-size: 2rem;
+}
+
+.shower {
+    --show-color: var(--primary-r);
+    --show-color-l: var(--primary-l-2);
+
+    &.easy {
+        --show-color: var(--success);
+        --show-color-l: var(--success-lighter);
+    }
+
+    &.perfect {
+        --show-color: var(--info);
+        --show-color-l: var(--info-lighter);
+    }
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    aspect-ratio: 1/1;
+    background-color: var(--show-color);
+    margin-right: 1rem;
+    position: relative;
+    margin-left: 1rem;
+    &::after {
+        position: absolute;
+        top: -0.25rem;
+        content: "";
+        border-radius: 50%;
+        z-index: -1;
+        left: -0.25rem;
+        right: -0.25rem;
+        bottom: -0.25rem;
+        background-color: var(--show-color-l);
+    }
+}
