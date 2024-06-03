@@ -1,15 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Run.scss';
 import { RouteComponentProps } from 'react-router';
 import {
   IonActionSheet,
   IonAlert,
+  IonAvatar,
+  IonButton,
   IonContent,
   IonHeader,
+  IonImg,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonMenu,
+  IonMenuToggle,
+  IonModal,
   IonPage,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/react';
 import Nav from '../../../components/layout/Nav';
-import { buildStepsFromSeance, isSeanceAtBeginning } from './run.utils';
+import {
+  buildStepsFromSeance,
+  isSeanceAtBeginning,
+  orderStepsBySeanceIndex,
+} from './run.utils';
 import { supabase } from '../../../services/supabaseClient';
 import { Run, SeanceStep } from './seance';
 import Chronometre from '../../../components/exercices/Chronometre';
@@ -18,6 +33,7 @@ import SeanceStepTracker from '../../../components/exercices/SeanceStepTracker';
 import CompletedSeance from '../../../components/exercices/CompletedSeance';
 import { POST } from '../../../services/run.service';
 import { getTimeDiffInSeconds } from '../../../utils/shared/date';
+import SeanceExos from '../seance/SeanceExos';
 
 interface RunPageProps
   extends RouteComponentProps<{
@@ -36,6 +52,8 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [serieLog, setSerieLog] = useState({});
   const [islastSerie, setIsLastSerie] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [recapSeance, setRecapSeance] = useState<any[] | null>(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -46,6 +64,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
         )
         .eq('seance', seanceId);
       setSeance(data);
+      setRecapSeance(orderStepsBySeanceIndex(data as any));
       setBuildedSeance(buildStepsFromSeance(data as any));
     };
     getData();
@@ -238,80 +257,112 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   };
 
   return (
-    <IonPage>
-      <IonHeader>
-        <Nav />
-      </IonHeader>
-      <IonActionSheet
-        isOpen={isOpen}
-        header='Diffcultée ressentie'
-        className="rcoach-action-sheet"
-        buttons={[
-          {
-            text: 'Trop dur',
-            role: 'hard',
-          },
-          {
-            text: 'Parfait',
-            role: 'perfect',
-          },
-          {
-            text: 'Trop facile',
-            role: 'easy',
-          },
-        ]}
-        onDidDismiss={({ detail }) => setCompleteSerie(detail.role || 'perfect')}
-      ></IonActionSheet>
-      <IonContent className='ion-padding'>
-        <div className='animate-in h-100 d-flex flex-column flex-justify-center flex-align-center'>
-          <h2 className='text-align-center m-b-1'>{`Entraînement du ${new Date().toLocaleDateString()}`}</h2>
-          <h3 className='text-align-center'>{getTitle()}</h3>
-          {!!run && !run.is_complete && getIsLastSerie() && (
-            <div className='preview d-flex flex-align-center'>
-              <i className='iconoir-arrow-right'></i>
-              <span className='text-s'>
-                {nextExo.exo.libelle} {nextExo.nb_reps}
-              </span>
-              {nextExo.charge && (
-                <span className='m-l-1'>x {nextExo.charge}kg</span>
-              )}
-            </div>
-          )}
-          {inTransition && !run.is_complete && getTransition()}
-          {!run && (
-            <button
-              onClick={() => startSeance()}
-              className='btn bg-primary-r-gradient m-b-3'
-            >
-              Commencer
-            </button>
-          )}
-          {!inTransition && !!run && !run.is_complete && (
-            <>
-              <SeanceStepDisplay
-                currentExoLibelle={currExo.exo.name_fr || currExo.exo.name_en}
-                currentExoNbRep={currExo.nb_reps}
-                currentExoCharge={currExo.charge}
-                currentExoTpsAction={currExo.temps_action || 0}
-                currentExoImage={currExo.exo.images}
-                onCompleteSerie={onCompleteSerie}
-                currentExo={currExo}
+    <>
+      <IonMenu
+        side='end'
+        contentId='run'
+        type='push'
+        onIonDidOpen={() => setIsMenuOpen(true)}
+        onIonDidClose={() => setIsMenuOpen(false)}
+      >
+        <IonHeader>
+          <IonToolbar>
+            <IonTitle>Votre séance</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className='ion-padding'>
+          <SeanceExos
+            seance={recapSeance}
+            simpleDisplay={true}
+            currExo={currExo?.seanceIndex}
+          />
+        </IonContent>
+      </IonMenu>
+      <IonPage id='run'>
+        <IonHeader>
+          <Nav />
+        </IonHeader>
+
+        <IonActionSheet
+          isOpen={isOpen}
+          header='Diffcultée ressentie'
+          className='rcoach-action-sheet'
+          buttons={[
+            {
+              text: 'Trop dur',
+              role: 'hard',
+            },
+            {
+              text: 'Parfait',
+              role: 'perfect',
+            },
+            {
+              text: 'Trop facile',
+              role: 'easy',
+            },
+          ]}
+          onDidDismiss={({ detail }) =>
+            setCompleteSerie(detail.role || 'perfect')
+          }
+        ></IonActionSheet>
+        <IonContent className='ion-padding'>
+          <div className='animate-in h-100 d-flex flex-column flex-justify-center flex-align-center'>
+            <h2 className='text-align-center m-b-1'>{`Entraînement du ${new Date().toLocaleDateString()}`}</h2>
+            <h3 className='text-align-center'>{getTitle()}</h3>
+            {!!run && !run.is_complete && getIsLastSerie() && (
+              <div className='preview d-flex flex-align-center'>
+                <i className='iconoir-arrow-right'></i>
+                <span className='text-s'>
+                  {nextExo.exo.libelle} {nextExo.nb_reps}
+                </span>
+                {nextExo.charge && (
+                  <span className='m-l-1'>x {nextExo.charge}kg</span>
+                )}
+              </div>
+            )}
+            {inTransition && !run.is_complete && getTransition()}
+            {!run && (
+              <button
+                onClick={() => startSeance()}
+                className='btn bg-primary-r-gradient m-b-3'
+              >
+                Commencer
+              </button>
+            )}
+            {!inTransition && !!run && !run.is_complete && (
+              <>
+                <SeanceStepDisplay
+                  currentExoLibelle={currExo.exo.name_fr || currExo.exo.name_en}
+                  currentExoNbRep={currExo.nb_reps}
+                  currentExoCharge={currExo.charge}
+                  currentExoTpsAction={currExo.temps_action || 0}
+                  currentExoImage={currExo.exo.images}
+                  onCompleteSerie={onCompleteSerie}
+                  currentExo={currExo}
+                />
+              </>
+            )}
+            {!!run && !run.is_complete && (
+              <SeanceStepTracker
+                stepNumber={run.seance.length}
+                currentStep={run.currentStep}
+                currentExoStep={run.currentStepExoSerie}
+                currentExoNbStep={currExo.nb_series}
               />
-            </>
-          )}
-          {!!run && !run.is_complete && (
-            <SeanceStepTracker
-              stepNumber={run.seance.length}
-              currentStep={run.currentStep}
-              currentExoStep={run.currentStepExoSerie}
-              currentExoNbStep={currExo.nb_series}
-            />
-          )}
-          {run && run.is_complete && (
-            <CompletedSeance beginTime={run.beginTime.toString()} />
-          )}
-        </div>
-      </IonContent>
-    </IonPage>
+            )}
+            {run && run.is_complete && (
+              <CompletedSeance beginTime={run.beginTime.toString()} />
+            )}
+          </div>
+          <IonMenuToggle>
+            <button className='get-recap'>
+              <i
+                className={`iconoir-nav-arrow-${isMenuOpen ? 'right' : 'left'}`}
+              ></i>
+            </button>
+          </IonMenuToggle>
+        </IonContent>
+      </IonPage>
+    </>
   );
 };

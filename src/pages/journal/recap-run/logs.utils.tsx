@@ -18,5 +18,5 @@ export const getNbSerieSucceeded = (
 
 export const getRpe = (logs: any[], seanceIndex: number) => {
   const exoLogs = logs[seanceIndex - 1];
-  return exoLogs[exoLogs.length - 1].rpe || 'perfect';
+  return exoLogs[exoLogs.length - 1]?.rpe || 'perfect';
 };

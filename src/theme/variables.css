@@ -29,6 +29,7 @@ http://ionicframework.com/docs/theming/ */
 
   --fail: hsl(0, 5%, 70%);
 
+  --grey-0: #ffffff;
   --grey-1: #faf7ff;
   --grey-2: hsl(262, 100%, 94%);
   --grey-3: #8e8c93;

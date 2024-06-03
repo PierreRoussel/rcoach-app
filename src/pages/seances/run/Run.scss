@@ -1,5 +1,5 @@
 .preview {
-    $preview-bg:  hsl(6, 97%, 95%);
+    $preview-bg: hsl(6, 97%, 95%);
     position: absolute;
     flex-wrap: wrap;
     top: 3rem;
@@ -22,3 +22,20 @@
         margin-top: 2px;
     }
 }
+.get-recap {
+    background-color: var(--grey-0);
+    border-top-left-radius: 8px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 34px;
+    border-bottom-left-radius: 8px;
+    box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    right: 0;
+    top: 50%;
+    font-size: 2rem;
+    color: var(--grey-3);
+}
+

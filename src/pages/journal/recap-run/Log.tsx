@@ -32,30 +32,33 @@ export const RecapRun: React.FC<RecapRunPageProps> = ({ match }) => {
   const modal = useRef<HTMLIonModalElement>(null);
 
   const runId = match.params.id || '0';
+
+  const getData = async () => {
+    const { data } = await supabase
+      .from('runs')
+      .select('*, seanceUtilisateur(libelle, id)')
+      .eq('id', runId)
+      .limit(1)
+      .single();
+    const endTime = new Date(data.created_at);
+    endTime.setSeconds(endTime.getSeconds() + data.temps_total);
+    setRun({ ...data, end_time: endTime });
+    getExos(data.seanceUtilisateur.id, data?.logs);
+  };
+
+  const getExos = async (seanceId: number, logs: any) => {
+    const { data } = await supabase
+      .from('seanceExo')
+      .select('*, exo(name_en,name_fr)')
+      .eq('seance', seanceId);
+    const orderedExos: any[] | undefined = data?.sort(
+      (a: any, b: any) => a.seanceIndex - b.seanceIndex
+    );
+    setSeance(orderedExos || []);
+    setLogs(groupByExercice(logs, data?.length || 1));
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      const { data } = await supabase
-        .from('runs')
-        .select('*, seanceUtilisateur(libelle, id)')
-        .eq('id', runId)
-        .limit(1)
-        .single();
-      const endTime = new Date(data.created_at);
-      endTime.setSeconds(endTime.getSeconds() + data.temps_total);
-      setRun({ ...data, end_time: endTime });
-      getExos(data.seanceUtilisateur.id, data?.logs);
-    };
-    const getExos = async (seanceId: number, logs: any) => {
-      const { data } = await supabase
-        .from('seanceExo')
-        .select('*, exo(name_en,name_fr)')
-        .eq('seance', seanceId);
-      const orderedExos: any[] | undefined = data?.sort(
-        (a: any, b: any) => a.seanceIndex - b.seanceIndex
-      );
-      setSeance(orderedExos || []);
-      setLogs(groupByExercice(logs, data?.length || 1));
-    };
     getData();
   }, []);
 
@@ -115,15 +118,15 @@ export const RecapRun: React.FC<RecapRunPageProps> = ({ match }) => {
           >
             <IonContent className='ion-padding'>
               <IonList>
-                <IonItem lines="none" detail={false}>
+                <IonItem lines='none' detail={false}>
                   <div className='shower easy'></div> Exercice réalisé
                   facilement, encore des reps en réserve
                 </IonItem>
-                <IonItem lines="none" detail={false}>
+                <IonItem lines='none' detail={false}>
                   <div className='shower perfect'></div> Diffculté parfaite, ni
                   plus ni moins.
                 </IonItem>
-                <IonItem lines="none" detail={false}>
+                <IonItem lines='none' detail={false}>
                   <div className='shower hard'></div> En échec ou incapable
                   d'aller plus loin pour le moment.
                 </IonItem>

@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import './Seance.scss';
 import { RouteComponentProps } from 'react-router';
-import { fancyTimeFormat } from '../../../utils/shared/date';
-import Bento from '../../../components/layout/Bento';
 import { IonContent, IonHeader, IonPage } from '@ionic/react';
 import Nav from '../../../components/layout/Nav';
 import { Link } from 'react-router-dom';
 import { supabase } from '../../../services/supabaseClient';
 import { orderStepsBySeanceIndex } from '../run/run.utils';
-import ExerciceImg from '../../../components/exercices/Illustration';
+import SeanceExos from './SeanceExos';
 
 interface SeancePageProps
   extends RouteComponentProps<{
@@ -39,51 +37,7 @@ export const Seance: React.FC<SeancePageProps> = ({ match }) => {
         <div className='recap-exo animate-in d-flex flex-column flex-justify-start flex-align-center h-100 w-100'>
           <div className='animate-in page-seance d-flex flex-column flex-align-center flex-justify-start w-100'>
             <h1>Séance {seance?.[0]['seanceUtilisateur']['libelle']}</h1>
-            <div className='page-seance__exercices d-flex flex-column flex-justify-stretch flex-align-center w-100'>
-              {seance?.map((exo) => {
-                return (
-                  <Bento
-                    key={exo['id']}
-                    className={
-                      exo.est_superset
-                        ? 'color-white superset-bento'
-                        : 'bg-grey-1'
-                    }
-                  >
-                    <div className='w-100 border-radius d-flex flex-column flex-justify-center flex-align-center '>
-                      <h3 className='m-b-1 m-i-3'>
-                        {exo.exo.name_fr || exo.exo.name_en}
-                      </h3>
-                      <div className='d-flex flex-row flex-align-center flex-gap'>
-                        <div className='illu-container'>
-                          <ExerciceImg exoImages={exo.exo.images} />
-                        </div>
-                        <div className='d-flex flex-align-center'>
-                          <span>{exo.nb_series} séries</span>
-                        </div>
-                        <div className='d-flex flex-column m-b-2'>
-                          <span className='d-flex flex-align-center flex-justify-start'>
-                            {!exo.charge && 'x '}
-                            {exo.nb_reps}
-                            {exo.temps_action && exo.temps_action + 's'}
-                            {exo.temps_action && (
-                              <i className='iconoir-wristwatch text-l'></i>
-                            )}
-                            {exo.charge && ' x ' + exo.charge + 'kg'}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <span className='exo-bento-chips d-flex flex-align-center flex-justify-start text-m'>
-                      <span className='exo-bento-chip d-flex- flex-justify-center flex-align-center'>
-                        <i className='iconoir-timer'></i>
-                        {fancyTimeFormat(exo.temps_repos)}
-                      </span>
-                    </span>
-                  </Bento>
-                );
-              })}
-            </div>
+            <SeanceExos seance={seance} />
           </div>
           <Link
             to={`/run/${runId}`}
