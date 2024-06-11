@@ -150,12 +150,12 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   const endRun = (run: Run) => {
     console.log('logs', logs);
     buildLogs(logs);
-    // POST(
-    //   seanceId,
-    //   logs,
-    //   getTimeDiffInSeconds(run.beginTime, new Date()),
-    //   new Date()
-    // );
+    POST(
+      seanceId,
+      logs,
+      getTimeDiffInSeconds(run.beginTime, new Date()),
+      new Date()
+    );
   };
 
   const getTransition = () => {
