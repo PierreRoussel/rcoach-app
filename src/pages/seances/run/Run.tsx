@@ -34,6 +34,7 @@ import CompletedSeance from '../../../components/exercices/CompletedSeance';
 import { POST } from '../../../services/run.service';
 import { getTimeDiffInSeconds } from '../../../utils/shared/date';
 import SeanceExos from '../seance/SeanceExos';
+import { buildLogs } from '../../journal/recap-run/logs.utils';
 
 interface RunPageProps
   extends RouteComponentProps<{
@@ -147,12 +148,14 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   };
 
   const endRun = (run: Run) => {
-    POST(
-      seanceId,
-      logs,
-      getTimeDiffInSeconds(run.beginTime, new Date()),
-      new Date()
-    );
+    console.log('logs', logs);
+    buildLogs(logs);
+    // POST(
+    //   seanceId,
+    //   logs,
+    //   getTimeDiffInSeconds(run.beginTime, new Date()),
+    //   new Date()
+    // );
   };
 
   const getTransition = () => {
@@ -196,7 +199,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
         setSerieLog({
           seanceIndex: currExo.seanceIndex,
           exoStep: run.currentStepExo,
-          exoId: currExo.exo.id,
+          exoId: currExo.exo.rowid,
           charge: currExo.charge,
           reps: failed ? 0 : currExo.nb_reps,
           is_failed: !!failed,
@@ -207,16 +210,16 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
       return setCompleteSerie(null, {
         seanceIndex: currExo.seanceIndex,
         exoStep: run.currentStepExo,
-        exoId: currExo.exo.id,
+        exoId: currExo.exo.rowid,
         charge: currExo.charge,
         reps: failed ? 0 : currExo.nb_reps,
         is_failed: !!failed,
       });
     }
-    return getSupersetNextStep();
+    return getSupersetNextStep(failed);
   };
 
-  const setCompleteSerie = (rpe: string | null, logs?: any) => {
+  const setCompleteSerie = (rpe: string | null, _logs?: any) => {
     if (rpe) {
       // si rpe, alors les logs sont en cache et on a un rpe en plus
       setIsOpen(false);
@@ -230,19 +233,30 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
       ]);
     } else {
       // si pas de rpe, on prend le param de logs
-      setLogs((prev: any) => [...prev, logs]);
+      setLogs((prev: any) => [...prev, _logs]);
     }
     return setInTransition(true);
   };
 
-  const getSupersetNextStep = () => {
-    isNextSupersetExo();
+  const getSupersetNextStep = (failed = false) => {
+    isNextSupersetExo(failed);
   };
 
-  const isNextSupersetExo = () => {
+  const isNextSupersetExo = (failed = false) => {
     if (run.currentStepExo < run.seance[run.currentStep].exo.length - 1) {
       // il y a d'autres exo dans le set, on passe au suivant
       setCurrExo(run.seance[run.currentStep].exo[run.currentStepExo + 1]);
+      setLogs((prev: any) => [
+        ...prev,
+        {
+          seanceIndex: currExo.seanceIndex,
+          exoStep: run.currentStepExo,
+          exoId: currExo.exo.rowid,
+          charge: currExo.charge,
+          reps: failed ? 0 : currExo.nb_reps,
+          is_failed: !!failed,
+        },
+      ]);
       return setRun((prev: any) => ({
         ...prev,
         currentStepExo: prev.currentStepExo + 1,
@@ -253,7 +267,14 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
       ...prev,
       currentStepExo: 0,
     }));
-    setInTransition(true);
+    return setCompleteSerie(null, {
+      seanceIndex: currExo.seanceIndex,
+      exoStep: run.currentStepExo,
+      exoId: currExo.exo.rowid,
+      charge: currExo.charge,
+      reps: failed ? 0 : currExo.nb_reps,
+      is_failed: !!failed,
+    });
   };
 
   return (

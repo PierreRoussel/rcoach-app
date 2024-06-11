@@ -10,13 +10,25 @@ export const groupByExercice = (logs: any, nbOfExercices: number) => {
   return groupBy;
 };
 
-export const getNbSerieSucceeded = (
-  logs: any[],
-) => {
+export const getNbSerieSucceeded = (logs: any[]) => {
   return logs.filter((log: any) => !log.is_failed).length;
 };
 
 export const getRpe = (logs: any[], seanceIndex: number) => {
   const exoLogs = logs[seanceIndex - 1];
   return exoLogs[exoLogs.length - 1]?.rpe || 'perfect';
+};
+
+export const buildLogs = (logs: any) => {
+  getNumberOfExerciceInLogs(logs);
+  // const groupedLogs = groupByExercice(logs);
+  // logs.map((log) => {});
+};
+
+export const getNumberOfExerciceInLogs = (logs: any) => {
+  let exos: number[] = [];
+  for (const iterator of logs) {
+    if (!exos.includes(iterator.exoId)) exos.push(iterator.exoId);
+  }
+  console.log('exos', exos);
 };

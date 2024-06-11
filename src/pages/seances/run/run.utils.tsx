@@ -24,8 +24,9 @@ export const buildStepsFromSeance = (seance: Exo[]): SeanceStep[] => {
 };
 
 export const orderStepsBySeanceIndex = (buildedSeance: SeanceStep[]) => {
-  console.log("🚀 ~ buildedSeance:", buildedSeance)
-  return buildedSeance.sort(function(a, b){return a.seanceIndex - b.seanceIndex});
+  return buildedSeance.sort(function (a, b) {
+    return a.seanceIndex - b.seanceIndex;
+  });
 };
 
 export const isPreviousSuperset = (seance: SeanceStep[], exo: Exo): boolean => {
@@ -61,4 +62,4 @@ export const isSeanceAtBeginning = (run: Run): boolean => {
 
 export const getGaucheDroiteLibelle = (phase: number) => {
   return phase === 1 ? 'Gauche' : 'Droite';
-}
+};
