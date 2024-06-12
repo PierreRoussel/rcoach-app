@@ -19,10 +19,28 @@ export const getRpe = (logs: any[], seanceIndex: number) => {
   return exoLogs[exoLogs.length - 1]?.rpe || 'perfect';
 };
 
-export const buildLogs = (logs: any) => {
-  getNumberOfExerciceInLogs(logs);
-  // const groupedLogs = groupByExercice(logs);
-  // logs.map((log) => {});
+export const buildLogs = (logs: any, seanceId: string) => {
+  const groupedLogs: any[] = groupByExercice(
+    logs,
+    getNumberOfExerciceInLogs(logs)
+  );
+  const exoLogs: any[] = [];
+
+  for (let index = 0; index < groupedLogs.length; index++) {
+    if (groupedLogs[index].length) {
+      exoLogs.push({
+        'exercice': groupedLogs[index][0].exoId,
+        'seanceExo': groupedLogs[index][0].seanceExoId,
+        'seanceUtilisateur': seanceId,
+        'repetitionsParSeries': groupedLogs[index].map(
+          (serie: any) => serie.reps
+        ),
+        'rpe':
+          groupedLogs[index][groupedLogs[index].length - 1].rpe || 'perfect',
+      });
+    }
+  }
+  return exoLogs;
 };
 
 export const getNumberOfExerciceInLogs = (logs: any) => {
@@ -30,5 +48,5 @@ export const getNumberOfExerciceInLogs = (logs: any) => {
   for (const iterator of logs) {
     if (!exos.includes(iterator.exoId)) exos.push(iterator.exoId);
   }
-  console.log('exos', exos);
+  return exos.length;
 };

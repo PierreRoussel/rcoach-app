@@ -10,10 +10,8 @@ export async function signInWithPasswordAndStore(params: {
     await supabase.auth.signInWithPassword(params);
   if (data.user) {
     loginStore.set('user', data.user);
-    console.log('loginStore', loginStore);
     return { data, error } as AuthTokenResponsePassword;
   }
   loginStore.clear();
-  console.log('clear');
   return { data, error } as AuthTokenResponsePassword;
 }

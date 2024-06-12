@@ -35,6 +35,7 @@ import { POST } from '../../../services/run.service';
 import { getTimeDiffInSeconds } from '../../../utils/shared/date';
 import SeanceExos from '../seance/SeanceExos';
 import { buildLogs } from '../../journal/recap-run/logs.utils';
+import { bulkInsertExercicesLogs } from '../../../services/logs.service';
 
 interface RunPageProps
   extends RouteComponentProps<{
@@ -148,8 +149,10 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   };
 
   const endRun = (run: Run) => {
-    console.log('logs', logs);
-    buildLogs(logs);
+    bulkInsertExercicesLogs(buildLogs(logs, seanceId), (data, err) => {
+      console.log('data', data);
+      console.log('err', err);
+    });
     POST(
       seanceId,
       logs,
@@ -194,12 +197,14 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
 
   const onCompleteSerie = (failed?: boolean) => {
     if (!currExo.est_superset) {
+      console.log('🚀 ~ currExo:', currExo);
       if (islastSerie) {
         // si derniere serie, on cache les logs et on affiche l'alert de RPE
         setSerieLog({
           seanceIndex: currExo.seanceIndex,
           exoStep: run.currentStepExo,
           exoId: currExo.exo.rowid,
+          seanceExoId: currExo.id,
           charge: currExo.charge,
           reps: failed ? 0 : currExo.nb_reps,
           is_failed: !!failed,
@@ -211,6 +216,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
         seanceIndex: currExo.seanceIndex,
         exoStep: run.currentStepExo,
         exoId: currExo.exo.rowid,
+        seanceExoId: currExo.id,
         charge: currExo.charge,
         reps: failed ? 0 : currExo.nb_reps,
         is_failed: !!failed,
@@ -252,6 +258,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
           seanceIndex: currExo.seanceIndex,
           exoStep: run.currentStepExo,
           exoId: currExo.exo.rowid,
+          seanceExoId: currExo.id,
           charge: currExo.charge,
           reps: failed ? 0 : currExo.nb_reps,
           is_failed: !!failed,
@@ -271,6 +278,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
       seanceIndex: currExo.seanceIndex,
       exoStep: run.currentStepExo,
       exoId: currExo.exo.rowid,
+      seanceExoId: currExo.id,
       charge: currExo.charge,
       reps: failed ? 0 : currExo.nb_reps,
       is_failed: !!failed,
