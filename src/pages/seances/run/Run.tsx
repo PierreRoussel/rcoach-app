@@ -35,7 +35,10 @@ import { POST } from '../../../services/run.service';
 import { getTimeDiffInSeconds } from '../../../utils/shared/date';
 import SeanceExos from '../seance/SeanceExos';
 import { buildLogs } from '../../journal/recap-run/logs.utils';
-import { bulkInsertExercicesLogs } from '../../../services/logs.service';
+import {
+  bulkInsertExercicesLogs,
+  checkRelatedSeance,
+} from '../../../services/logs.service';
 
 interface RunPageProps
   extends RouteComponentProps<{
@@ -149,6 +152,7 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
   };
 
   const endRun = (run: Run) => {
+    // checkRelatedSeance(seanceId);
     bulkInsertExercicesLogs(buildLogs(logs, seanceId), (data, err) => {
       console.log('data', data);
       console.log('err', err);

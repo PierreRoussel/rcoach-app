@@ -13,3 +13,13 @@ export const bulkInsertExercicesLogs = async (
     .select();
   callback(data, error);
 };
+
+export const checkRelatedSeance = async (
+  row_id: number | string,
+  callback?: (data: any[] | null, err: PostgrestError | null) => void
+) => {
+  const { data, error } = await supabase.rpc('checkrelatedseance', { row_id: +row_id });
+  console.log('🚀 ~ error:', error);
+  console.log('🚀 ~ data:', data);
+  if (callback) callback(data, error);
+};
