@@ -1,7 +1,6 @@
 @import "../../styles/assets/variables";
 
 .avatar {
-    background-color: rgba($grey-2, 0.5);
     border-radius: 50%;
     padding: 0.5rem;
     aspect-ratio: 1/1;
@@ -12,5 +11,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: $primary-l-4;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+    .avatar-background {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-color: $grey-2;
+        opacity: 0.5;
+    }
+    span {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.05rem;
+    }
 }

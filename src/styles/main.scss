@@ -284,6 +284,9 @@ a {
 .bg-success {
   background-color: $success !important;
 }
+.bg-semitransparent {
+  background: rgba(white, 0.85);
+}
 
 .bg-fail {
   background-color: $fail !important;

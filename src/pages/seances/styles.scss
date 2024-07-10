@@ -1,0 +1,17 @@
+a.seance-today {
+    color: white;
+
+    &:nth-child(1) {
+        margin-top: 0;
+    }
+
+    &:last-child {
+        margin-bottom: 3rem !important;
+    }
+
+    .avatar {
+        .avatar-background {
+            opacity: 0.85;
+        }
+    }
+}
