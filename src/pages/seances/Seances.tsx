@@ -11,6 +11,8 @@ import fusee from '../../styles/images/fusee.png';
 import Nav from '../../components/layout/Nav';
 import { loginStore } from '../../stores/login.store';
 import { User } from '@supabase/supabase-js';
+import { getIncomingSeances } from '../../services/seances.service';
+import { getDateString } from '../../utils/shared/date';
 
 export default function Seances() {
   const [seances, setSeances] = useState<any[] | null>(null);
@@ -19,12 +21,17 @@ export default function Seances() {
     const getData = async () => {
       const user: User = await loginStore.get('user');
 
-      const { data } = await supabase
-        .from('seanceUtilisateur')
-        .select('*')
-        .eq('sportif', user.id)
-        .order('created_at', { ascending: false });
-      setSeances(data);
+      // const { data } = await supabase
+      //   .from('seanceUtilisateur')
+      //   .select('*')
+      //   .eq('sportif', user.id)
+      //   .order('created_at', { ascending: false });
+
+      getIncomingSeances(user.id, new Date(), (data, error) => {
+        console.log('🚀 ~ error:', error);
+        console.log('🚀 ~ data:', data);
+        setSeances(data);
+      });
     };
     getData();
   }, []);
@@ -50,7 +57,12 @@ export default function Seances() {
                 >
                   <Bento className='d-flex flex-justify-start flex-align-center flex-gap'>
                     <Avatar chain={seance.libelle} />
-                    {seance.libelle}
+                    <div className='d-flex flex-column'>
+                      {seance.libelle}
+                      <i style={{color:'#666'}}>
+                        {getDateString(new Date(seance.date_programmation))}
+                      </i>
+                    </div>
                     <i className='iconoir-nav-arrow-right m-left-auto'></i>
                   </Bento>
                 </Link>
