@@ -6,17 +6,32 @@ export async function POST(
   temps_total: any,
   date: Date
 ) {
+  // const { data, error } = await supabase
+  //   .from('runs')
+  //   .insert([
+  //     {
+  //       'seanceUtilisateur': seanceId,
+  //       'logs': logs,
+  //       'temps_total': temps_total,
+  //       'date': date,
+  //     },
+  //   ])
+  //   .select();
+
+  const req: any = {
+    'seanceUtilisateur': seanceId,
+    'logs': logs,
+    'temps_total': temps_total,
+    'date': date,
+  };
+  console.log("🚀 ~ req:", req)
+
   const { data, error } = await supabase
     .from('runs')
-    .insert([
-      {
-        seance_utilisateur: seanceId,
-        logs: logs,
-        temps_total: temps_total,
-        date: date,
-      },
-    ])
+    .insert([req])
     .select();
+  console.log('🚀 ~ error:', error);
+  console.log('🚀 ~ data:', data);
 }
 
 export const getExoImage = async (images: any, callback: any) => {

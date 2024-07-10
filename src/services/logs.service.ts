@@ -7,6 +7,7 @@ export const bulkInsertExercicesLogs = async (
   request: any,
   callback: (data: any[] | null, err: PostgrestError | null) => void
 ) => {
+  console.log("🚀 ~ request:", request)
   const { data, error } = await supabase
     .from(table)
     .insert([...request])

@@ -153,7 +153,10 @@ export const RunPage: React.FC<RunPageProps> = ({ match }) => {
 
   const endRun = (run: Run) => {
     checkRelatedSeance(seanceId);
-    bulkInsertExercicesLogs(buildLogs(logs, seanceId), (data, err) => {});
+    bulkInsertExercicesLogs(buildLogs(logs, seanceId), (data, err) => {
+      console.log('data', data)
+      console.log('err', err)
+    });
     POST(
       seanceId,
       logs,
