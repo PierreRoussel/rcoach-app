@@ -21,15 +21,7 @@ export default function Seances() {
     const getData = async () => {
       const user: User = await loginStore.get('user');
 
-      // const { data } = await supabase
-      //   .from('seanceUtilisateur')
-      //   .select('*')
-      //   .eq('sportif', user.id)
-      //   .order('created_at', { ascending: false });
-
       getIncomingSeances(user.id, new Date(), (data, error) => {
-        console.log('🚀 ~ error:', error);
-        console.log('🚀 ~ data:', data);
         setSeances(data);
       });
     };
@@ -59,7 +51,7 @@ export default function Seances() {
                     <Avatar chain={seance.libelle} />
                     <div className='d-flex flex-column'>
                       {seance.libelle}
-                      <i style={{color:'#666'}}>
+                      <i style={{ color: '#666' }}>
                         {getDateString(new Date(seance.date_programmation))}
                       </i>
                     </div>
