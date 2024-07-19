@@ -1,7 +1,12 @@
 @import "../styles//assets/shadow-helpers";
 
+:host {
+    --offset-bottom: 0;
+}
+
 .home-container {
     position: relative;
+
 
     .theme-switcher {
         position: absolute;

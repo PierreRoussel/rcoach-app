@@ -3,13 +3,6 @@ import './ThemeSwitcher.scss';
 export default function ThemeSwitcher() {
   const storageKey = 'theme-preference';
 
-  const onClick = () => {
-    // flip current value
-    (theme as any).value = (theme as any).value === 'light' ? 'dark' : 'light';
-
-    setPreference();
-  };
-
   const getColorPreference = () => {
     if (localStorage.getItem(storageKey))
       return localStorage.getItem(storageKey);
@@ -17,6 +10,17 @@ export default function ThemeSwitcher() {
       return window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light';
+  };
+
+  const theme = {
+    value: getColorPreference(),
+  };
+
+  const onClick = () => {
+    // flip current value
+    (theme as any).value = (theme as any).value === 'light' ? 'dark' : 'light';
+
+    setPreference();
   };
 
   const setPreference = () => {
@@ -33,10 +37,6 @@ export default function ThemeSwitcher() {
     document
       .querySelector('#theme-toggle')
       ?.setAttribute('aria-label', (theme as any).value);
-  };
-
-  const theme = {
-    value: getColorPreference(),
   };
 
   // set early so no page flashes / CSS is made aware
