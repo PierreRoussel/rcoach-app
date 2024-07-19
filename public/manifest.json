@@ -14,7 +14,7 @@
     }
   ],
   "orientation": "portrait",
-  "display": "standalone",
+  "display": "fullscreen",
   "dir": "auto",
   "lang": "fr",
   "name": "Rcoach",
