@@ -11,7 +11,7 @@ export default function Historique() {
         {week.map((day) => (
           <div key={`${day.date}${day.isToday}`} className='h-100 d-flex flex-justify-between flex-gap flex-column'>
             <span className='flex-1'>{day.libelle}</span>
-            <b className={`rounded d-flex flex-justify-center flex-align-center p-1 ${day.isToday ? 'bg-primary color-white' : ''}`}>{day.date}</b>
+            <b className={`rounded d-flex flex-justify-center flex-align-center p-1 ${day.isToday ? 'bg-primary-r color-white' : ''}`}>{day.date}</b>
           </div>
         ))}
       </div>

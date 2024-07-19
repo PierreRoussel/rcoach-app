@@ -1,0 +1,117 @@
+@import "../styles//assets/shadow-helpers";
+
+.home-container {
+    --background: var(--grey-0);
+
+    .home-illustration {
+        width: 110vw;
+        margin-left: -5vw;
+        max-width: none;
+        transform: translateY(25px);
+    }
+
+    .home-container--content--title {
+        font-size: 0.75rem;
+        color: var(--grey-4);
+        font-weight: bold;
+    }
+
+    .home-container--content {
+        z-index: 10;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 18px;
+        padding-top: 24px;
+        background: var(--grey-0);
+        border-radius: 24px;
+        height: 100%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+.home-footer {
+    --ion-toolbar-background: var(--grey-0);
+    background: var(--grey-0);
+    border-radius: 32px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 100%;
+    box-shadow: $box-shadow;
+    z-index: 100;
+
+    .home-footer--inner {
+        padding: 4px;
+        margin: 16px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        a {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            color: var(--grey-3);
+            font-size: 0.75rem;
+
+            i {
+                font-size: 24px;
+                padding: 4px;
+                border-radius: 8px;
+                color: var(--grey-3);
+            }
+        }
+
+        .play-seance {
+            padding: 12px;
+            position: relative;
+
+            i {
+                position: absolute;
+                color: var(--grey-0);
+                font-size: 48px;
+                padding: 8px;
+                border: 4px solid var(--grey-0);
+                background: var(--primary-r-gradient);
+                transform: translateY(-24px);
+                border-radius: 50%;
+            }
+        }
+    }
+}
+
+.bento.ressentis-bento {
+    position: relative;
+    overflow: hidden;
+    transition: visiblity 1.5s;
+    transition-delay: 2s;
+    .ressentis-bento--question {
+        color: var(--grey-5);
+    }
+    .ressentis-container {
+        padding-top: 8px;
+    }
+    .ressentis-bento--news-check {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+    }
+    .ressentis-bento--success-check {
+        position: absolute;
+        inset: 0;
+        z-index: 1001;
+        top: calc(50% - 40px);
+        .icon-line {
+            background-color: var(--primary-tertiary) !important;
+        }
+
+        .check-icon,
+        .icon-circle {
+            border-color: var(--primary-tertiary) !important;
+        }
+    }
+}

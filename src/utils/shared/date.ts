@@ -8,6 +8,19 @@ export const getTimeDiffInSeconds = (startDate: Date, endDate: Date) => {
   return (new Date(endDate).getTime() - new Date(startDate).getTime()) / 1000;
 };
 
+export const isSameDay = (d1: any, d2: any) => {
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getDate() === d2.getDate() &&
+    d1.getMonth() === d2.getMonth()
+  );
+};
+
+export const formatDateWithRightTimeZoneOffset = (date: Date) => {
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  return date;
+};
+
 /**
  *
  * @param time - total time in seconds
@@ -87,5 +100,5 @@ export const getDayPartString = (date: Date) => {
       partString = 'du soir';
       break;
   }
-  return partString
+  return partString;
 };

@@ -2,6 +2,33 @@
     transition: all 0.075s;
 }
 
+.disappear {
+    animation: disappear forwards 0.85s;
+    animation-delay: 1s;
+}
+
+@keyframes disappear {
+    0% {
+        height: 100%;
+        transform: translateX(0) scale(0);
+    }
+    45% {
+        height: 100%;
+        transform: translateX(0) scale(0.75);
+    }
+    99% {
+        height: 0;
+        transform: translateX(100vw) scale(0.75);
+        visibility: hidden;
+    }
+    100% {
+        height: 0;
+        transform: translateX(100vw) scale(0.75);
+        visibility: hidden;
+        display: none !important;
+    }
+}
+
 .opacity-0 {
     opacity: 0;
 }
@@ -19,9 +46,45 @@
         transform: scale(1);
     }
     50% {
-        transform: scale(.98);
+        transform: scale(0.98);
     }
     100% {
         transform: scale(1);
+    }
+}
+
+@mixin ripple($duration, $delay) {
+    opacity: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: "";
+    height: 100%;
+    width: 100%;
+    background: var(--primary-r);
+    border-radius: 100%;
+    animation-name: ripple;
+    animation-duration: $duration;
+    animation-delay: $delay;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.65, 0, 0.34, 1);
+    z-index: -1;
+}
+
+@keyframes ripple {
+    from {
+        opacity: 1;
+        transform: scale3d(0.75, 0.75, 1);
+    }
+
+    to {
+        opacity: 0;
+        transform: scale3d(2, 2, 1);
     }
 }

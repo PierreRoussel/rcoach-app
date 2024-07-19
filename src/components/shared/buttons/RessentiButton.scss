@@ -1,0 +1,67 @@
+.ressenti-button {
+    $padd: 1.4em;
+    $fontSize: 32px;
+    $transition: 0.5s;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: calc($fontSize * 2);
+    gap: 8px;
+    background-color: transparent;
+    i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: $padd;
+        width: $padd;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        font-size: $fontSize;
+        transition: all $transition;
+    }
+
+    span {
+        color: var(--grey-4);
+        transition: all $transition;
+        font-size: 0.77rem;
+    }
+
+    &.ressenti-button--selected {
+        z-index: 1000;
+        i {
+            font-size: calc($fontSize * 1.3);
+            margin-top: -25%;
+            &::after {
+                z-index: -1;
+                content: "";
+                position: absolute;
+                background-color: inherit;
+                animation: grow forwards $transition;
+            }
+        }
+        span {
+            font-size: 1rem;
+            color: var(--white);
+        }
+    }
+
+    &:hover {
+        i {
+            font-size: calc($fontSize * 1.1);
+        }
+    }
+}
+
+@keyframes grow {
+    from {
+        opacity: 0;
+        inset: 100%;
+    }
+
+    to {
+        inset: -50%;
+        opacity: 0.75;
+    }
+}

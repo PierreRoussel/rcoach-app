@@ -24,7 +24,6 @@ export async function POST(
     'temps_total': temps_total,
     'date': date,
   };
-  console.log("🚀 ~ req:", req)
 
   const { data, error } = await supabase
     .from('runs')

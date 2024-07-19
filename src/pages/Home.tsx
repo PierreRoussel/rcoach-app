@@ -1,28 +1,153 @@
-import { IonContent, IonPage } from '@ionic/react';
+import {
+  IonButton,
+  IonButtons,
+  IonCol,
+  IonContent,
+  IonFooter,
+  IonPage,
+  IonText,
+  IonToolbar,
+} from '@ionic/react';
 import './Home.scss';
 
 import Logo from '../styles/logo.png';
 import pwa from '../styles/images/pwa.png';
+import illustrationFond from '../styles/images/workout.svg';
 
 import Historique from '../components/bentos/Historique';
 import Bento from '../components/layout/Bento';
 import Header from '../components/home/Header';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import {
+  getRessentiByDate,
+  getRessentisEnergie,
+  upsertUtilisateurRessenti,
+} from '../services/ressentis.service';
+import { loginStore } from '../stores/login.store';
+import { User } from '@supabase/supabase-js';
+import { isSameDay } from '../utils/shared/date';
+import RessentiButton from '../components/shared/buttons/RessentiButton';
+import NewsCheck from '../components/shared/checks/NewsCheck';
+import SuccessCheck from '../components/shared/checks/SuccessCheck';
 
 const Home: React.FC = () => {
+  const [ressentis, setRessentis] = useState<any[] | null>(null);
+  const [isRessentisPushed, setIsRessentisPushed] = useState<boolean>(false);
+  const [choicesRessentisEnergie, setChoicesRessentisEnergie] = useState<
+    any[] | null
+  >(null);
+
+  useEffect(() => {
+    initEnergieRessenti();
+  }, []);
+
+  async function initEnergieRessenti() {
+    const storedRessentis: any = await loginStore.get('ressentis');
+    if (
+      storedRessentis &&
+      isSameDay(new Date(), new Date(storedRessentis.date_ressenti_utilisateur))
+    ) {
+      return setRessentis(storedRessentis);
+    }
+
+    const user: User = await loginStore.get('user');
+    getRessentiByDate(user.id, new Date(), (data: any, error: any) => {
+      if (data) {
+        setRessentis(data);
+        loginStore.set('ressentis', data);
+        return;
+      }
+
+      getRessentisChoices();
+    });
+  }
+
+  function getRessentisChoices() {
+    getRessentisEnergie((data: any, error: any) => {
+      setChoicesRessentisEnergie(data);
+    });
+  }
+
+  async function energieRessentiSelected(id: any) {
+    const user: User = await loginStore.get('user');
+    upsertUtilisateurRessenti(
+      user.id,
+      {
+        date: new Date(),
+        ressenti_energie: id,
+      },
+      (data: any, error: any) => {
+        setTimeout(() => {
+          setIsRessentisPushed(true);
+        }, 510);
+      }
+    );
+  }
+
   return (
     <IonPage>
-      <IonContent fullscreen className='ion-padding'>
-        <div className='index d-flex flex-column w-100 flex-align-center flex-justify-start flex-gap'>
-          <img className='m-b-3' src={Logo} alt='' width='200' />
+      <IonContent fullscreen={true} className='home-container'>
+        <img
+          className='home-illustration'
+          src={illustrationFond}
+          alt=''
+          width='200'
+        />
+        <div className='home-container--content'>
+          <IonText className='home-container--content--title'>
+            Votre suivi sur-mesure
+          </IonText>
           <Historique />
+          {!ressentis && choicesRessentisEnergie && (
+            <div
+              className={`ressentis-bento ${
+                isRessentisPushed ? 'disappear' : ''
+              }`}
+            >
+              <Bento className='ressentis-bento'>
+                <div className='d-flex flex-column flex-justify-start'>
+                  <span className='ressentis-bento--question'>
+                    Comment te sens-tu aujourd'hui ?
+                  </span>
+                  <div className='ressentis-bento--news-check'>
+                    <NewsCheck />
+                  </div>
+                  {isRessentisPushed && (
+                    <div className='ressentis-bento--success-check'>
+                      <SuccessCheck />
+                    </div>
+                  )}
+
+                  <div className='ressentis-container d-flex flex-gap flex-align-center justify-content-between'>
+                    {choicesRessentisEnergie.map((ressenti: any) => (
+                      <RessentiButton
+                        key={ressenti.id}
+                        id={ressenti.id}
+                        couleur={ressenti.couleur}
+                        icone={ressenti.icon_name}
+                        libelle={ressenti.libelle}
+                        ressentiSelected={(id: any) =>
+                          energieRessentiSelected(id)
+                        }
+                      ></RessentiButton>
+                    ))}
+                  </div>
+                </div>
+              </Bento>
+            </div>
+          )}
           <Bento className='border-primary-r'>
             <div className='d-flex flex-justify-between flex-align-center'>
               <div className='d-flex flex-column flex-justify-start'>
                 <i className='label'>Actualités</i>
                 <span>
                   L'application est également accessible sur le web,{' '}
-                  <a target='_blank' className='color-primary-r' href='https://rcoach-admin-react.vercel.app'>
+                  <a
+                    target='_blank'
+                    className='color-primary-r'
+                    href='https://rcoach-admin-react.vercel.app'
+                  >
                     rcoach.app
                   </a>
                 </span>
@@ -39,22 +164,31 @@ const Home: React.FC = () => {
           <Bento className='bg-primary-r-gradient'>
             <Header />
           </Bento>
-          <div className='d-flex w-100 flex-justify-between'>
-            <Link to={'/journal'}>
-              <Bento className='bento-half flex-gap d-flex flex-align-center'>
-                <i className='iconoir-graph-up'></i>Journal
-                <i className='iconoir-nav-arrow-right m-left-auto'></i>
-              </Bento>
-            </Link>
-            <Link to={'/account'}>
-              <Bento className='bento-half flex-gap d-flex flex-align-center'>
-                <i className='iconoir-user'></i>Compte
-                <i className='iconoir-nav-arrow-right m-left-auto'></i>
-              </Bento>
-            </Link>
-          </div>
         </div>
       </IonContent>
+      <IonFooter class='home-footer'>
+        <div className='home-footer--inner'>
+          <Link to={'/journal'}>
+            <i className='iconoir-graph-up'></i>
+            <span>Journal</span>
+          </Link>
+          <Link to={'/seance'}>
+            <i className='iconoir-treadmill'></i>
+            <span>Séances</span>
+          </Link>
+          <Link className='play-seance' to={'/seance'}>
+            <i className='iconoir-play'></i>
+          </Link>
+          <Link to={'/calendrier'}>
+            <i className='iconoir-calendar'></i>
+            <span>Calendrier</span>
+          </Link>
+          <Link to={'/account'}>
+            <i className='iconoir-user'></i>
+            <span>Compte</span>
+          </Link>
+        </div>
+      </IonFooter>
     </IonPage>
   );
 };

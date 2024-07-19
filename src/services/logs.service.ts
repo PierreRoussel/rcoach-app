@@ -7,7 +7,6 @@ export const bulkInsertExercicesLogs = async (
   request: any,
   callback: (data: any[] | null, err: PostgrestError | null) => void
 ) => {
-  console.log("🚀 ~ request:", request)
   const { data, error } = await supabase
     .from(table)
     .insert([...request])
@@ -20,7 +19,5 @@ export const checkRelatedSeance = async (
   callback?: (data: any[] | null, err: PostgrestError | null) => void
 ) => {
   const { data, error } = await supabase.rpc('checkrelatedseance', { row_id: +row_id });
-  console.log('🚀 ~ error:', error);
-  console.log('🚀 ~ data:', data);
   if (callback) callback(data, error);
 };
