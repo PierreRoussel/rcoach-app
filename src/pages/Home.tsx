@@ -19,41 +19,55 @@ import { loginStore } from '../stores/login.store';
 import { User } from '@supabase/supabase-js';
 import { isSameDay } from '../utils/shared/date';
 import RessentiButton from '../components/shared/buttons/RessentiButton';
-import NewsCheck from '../components/shared/checks/NewsCheck';
 import SuccessCheck from '../components/shared/checks/SuccessCheck';
 import ThemeSwitcher from '../components/shared/buttons/ThemeSwitcher';
 import Workout from '../styles/images/workout';
+import RessentiNutrition from '../components/bentos/RessentiNutrition';
 
 const Home: React.FC = () => {
-  const [ressentis, setRessentis] = useState<any[] | null>(null);
   const [isRessentisPushed, setIsRessentisPushed] = useState<boolean>(false);
   const [choicesRessentisEnergie, setChoicesRessentisEnergie] = useState<
     any[] | null
   >(null);
+  const [isRessentiEnergieSet, setIsRessentiEnergieSet] = useState(true);
+  const [isRessentiNutritionSet, setIsRessentiNutritionSet] = useState(true);
 
   useEffect(() => {
-    initEnergieRessenti();
-  }, []);
+    initTodayRessenti();
+    if (!isRessentiEnergieSet) getRessentisChoices();
+  }, [isRessentiEnergieSet]);
 
-  async function initEnergieRessenti() {
-    const storedRessentis: any = await loginStore.get('ressentis');
+  async function initTodayRessenti() {
+    // on tente de récupérer le ressenti en store
+    const dailyRessenti: any = await loginStore.get('ressentis');
+
+    // si on a pas de ressenti en store ou qu'il ne correspond pas à la date actuelle
+    // on essaie de récupérer en distance
     if (
-      storedRessentis &&
-      isSameDay(new Date(), new Date(storedRessentis.date_ressenti_utilisateur))
+      !dailyRessenti ||
+      !isSameDay(new Date(), new Date(dailyRessenti.date_ressenti_utilisateur))
     ) {
-      return setRessentis(storedRessentis);
+      const user: User = await loginStore.get('user');
+
+      return getRessentiByDate(user.id, new Date(), (data: any, error: any) => {
+        // si on a un ressenti en distance, on le met en store et on actualise l'affichage
+        // des blocs de récupération de ressenti
+        if (data) {
+          loginStore.set('ressentis', data);
+        }
+        handleRessentisDisplay(data);
+      });
+    } else {
+      // si on a un ressenti en store et qu'il est au bon jour, on check les
+      // ressentis à récupérer et on gère l'affichage
+      handleRessentisDisplay(dailyRessenti);
     }
+  }
 
-    const user: User = await loginStore.get('user');
-    getRessentiByDate(user.id, new Date(), (data: any, error: any) => {
-      if (data) {
-        setRessentis(data);
-        loginStore.set('ressentis', data);
-        return;
-      }
-
-      getRessentisChoices();
-    });
+  function handleRessentisDisplay(ressenti: any) {
+    if (!ressenti || !ressenti.ressenti_energie) setIsRessentiEnergieSet(false);
+    if (!ressenti || !ressenti.ressenti_nutrition)
+      setIsRessentiNutritionSet(false);
   }
 
   function getRessentisChoices() {
@@ -71,6 +85,8 @@ const Home: React.FC = () => {
         ressenti_energie: id,
       },
       (data: any, error: any) => {
+        loginStore.set('ressentis', data);
+        
         setTimeout(() => {
           setIsRessentisPushed(true);
         }, 510);
@@ -95,7 +111,7 @@ const Home: React.FC = () => {
             Votre suivi sur-mesure
           </IonText>
           <Historique />
-          {!ressentis && choicesRessentisEnergie && (
+          {!isRessentiEnergieSet && choicesRessentisEnergie && (
             <div
               className={`ressentis-bento ${
                 isRessentisPushed ? 'disappear' : ''
@@ -106,9 +122,6 @@ const Home: React.FC = () => {
                   <span className='ressentis-bento--question'>
                     Comment te sens-tu aujourd'hui ?
                   </span>
-                  <div className='ressentis-bento--news-check'>
-                    <NewsCheck />
-                  </div>
                   {isRessentisPushed && (
                     <div className='ressentis-bento--success-check'>
                       <SuccessCheck />
@@ -133,6 +146,7 @@ const Home: React.FC = () => {
               </Bento>
             </div>
           )}
+          {!isRessentiNutritionSet && <RessentiNutrition />}
           <Bento className='border-primary-r'>
             <div className='d-flex flex-justify-between flex-align-center'>
               <div className='d-flex flex-column flex-justify-start'>

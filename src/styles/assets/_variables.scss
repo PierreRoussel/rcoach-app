@@ -27,13 +27,23 @@
     --primary-l-5: hsl(6, 97%, 70%);
     --primary-r-gradient: linear-gradient(90deg, var(--primary-r), #fab44a);
 
-    --epuise: #8e8c93;
-    --fatigue: #ff9f83;
-    --habituel: #92df7e;
-    --bien: #60b479;
-    --excellent: #fc4e39;
+    --epuise: hsl(347, 100%, 88%);
+    --epuise-dark: #93344a;
 
-    --pas-assez: #ff9e78;
+    --fatigue: #f9c7a4;
+    --fatigue-dark: #a1673f;
+
+    --habituel: #c5e7e8;
+    --habituel-dark: #328b8a;
+
+    --bien: #d4eadd;
+    --bien-dark: hsl(143, 26%, 51%);
+
+    --excellent: var(--primary-r);
+    --excellent: var(--primary-r);
+
+    --pas-assez: hsl(290, 100%, 88%);
+    --pas-assez-dark: hsl(290, 40%, 48%);
 
     --grey-1-rgb: rgb(250, 247, 255);
     --grey-2-rgb: rgb(236, 224, 255);
@@ -44,7 +54,7 @@
     --ion-text-color: var(--grey-4);
     --background: var(--grey-0);
     --ion-background-color: var(--background);
-    
+
     --icon-fill: var(--primary-l-4);
     --icon-fill-hover: var(--primary-l-3);
     --ciel: #a9dfeb6e;
@@ -62,10 +72,17 @@
     --ion-background-color: var(--background);
     --ion-text-color: var(--grey-3);
     --ion-toolbar-backround: var(--grey-1);
-    
+
     --icon-fill: var(--ion-text-color);
     --icon-fill-hover: var(--grey-4);
     --ciel: #3f3d56bb;
+
+    --epuise: hsla(347, 100%, 88%, 0.85);
+    --fatigue: hsla(25, 88%, 81%, 0.85);
+    --habituel: hsla(182, 43%, 84%, 0.85);
+    --bien: hsla(145, 34%, 87%, 0.85);
+    --excellent: var(--primary-r);
+    --pas-assez: hsla(290, 100%, 88%, 0.85);
 }
 
 $primary-r: #fc4e39;

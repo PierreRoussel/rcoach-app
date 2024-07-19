@@ -17,6 +17,7 @@ export default function RessentiButton(props: any) {
       <i
         style={{
           background: `var(--${props.couleur})`,
+          color: `var(--${props.couleur}-dark)`,
         }}
         className={'iconoir-' + props.icone}
       />

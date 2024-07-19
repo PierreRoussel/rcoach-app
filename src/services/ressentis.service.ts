@@ -3,6 +3,7 @@ import { supabase } from './supabaseClient';
 
 const utilisateur_ressentis = 'utilisateur_ressentis';
 const ressenti_energie = 'ressenti_energie';
+const ressenti_nutrition = 'ressenti_nutrition';
 
 export const getRessentiByDate = async (
   userId: string,
@@ -60,6 +61,14 @@ export const upsertUtilisateurNutrition = async (
 export const getRessentisEnergie = async (callback: any) => {
   const { data, error } = await supabase
     .from(ressenti_energie)
+    .select('*')
+    .order('index');
+  return callback(data, error);
+};
+
+export const getRessentisNutrition = async (callback: any) => {
+  const { data, error } = await supabase
+    .from(ressenti_nutrition)
     .select('*')
     .order('index');
   return callback(data, error);

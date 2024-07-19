@@ -1,3 +1,5 @@
+@import "../../../styles/assets/animations";
+
 .ressenti-button {
     $padd: 1.4em;
     $fontSize: 32px;
@@ -23,7 +25,7 @@
     }
 
     span {
-        color: var(--grey-4);
+        color: var(--grey-3);
         transition: all $transition;
         font-size: 0.77rem;
     }
