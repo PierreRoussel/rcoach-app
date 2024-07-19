@@ -78,6 +78,7 @@ const Home: React.FC = () => {
 
   async function energieRessentiSelected(id: any) {
     const user: User = await loginStore.get('user');
+    setIsRessentiNutritionSet(true)
     upsertUtilisateurRessenti(
       user.id,
       {

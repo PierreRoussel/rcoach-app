@@ -3,11 +3,11 @@
     --vert-fonce: #00897b;
     --vetement: #455a64;
     --nuage: var(--grey-1);
+    --etoile: transparent;
 }
 
 [data-theme="dark"] {
-    // --vert-clair: #6b354c;
-    // --vert-fonce: #281f3e;
+    --etoile: rgba(255, 255, 255, 0.5);
 
     --vert-clair: #144969;
     --vert-fonce: #091e3d;
