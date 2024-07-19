@@ -12,24 +12,24 @@
 
     .home-illustration-container {
         display: block;
-        height: 30vh;
+        height: 31vh;
         width: auto;
         position: relative;
         .home-illustration-logo {
             position: absolute;
             inset: 50%;
-            transform: translateX(-50%) translateY(-78%);
+            transform: translateX(-50%) translateY(-82%);
             z-index: -1;
-            width: 150px;
+            width: 120px;
         }
         .home-illustration {
             object-fit: contain;
             object-position: top;
-            width: 110%;
+            width: 112%;
             margin-top: -5%;
-            margin-left: -5%;
+            margin-left: -12%;
             max-width: none;
-            transform: translateY(25px);
+            transform: translateY(-30px);
         }
     }
 
@@ -136,15 +136,6 @@
         .check-icon,
         .icon-circle {
             border-color: var(--primary-tertiary) !important;
-        }
-    }
-}
-
-[data-theme="dark"] {
-    .home-container {
-        .home-illustration-container {
-            .home-illustration {
-            }
         }
     }
 }

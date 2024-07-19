@@ -21,8 +21,8 @@ import { isSameDay } from '../utils/shared/date';
 import RessentiButton from '../components/shared/buttons/RessentiButton';
 import NewsCheck from '../components/shared/checks/NewsCheck';
 import SuccessCheck from '../components/shared/checks/SuccessCheck';
-import { switchTheme } from '../theme/theme.utils';
 import ThemeSwitcher from '../components/shared/buttons/ThemeSwitcher';
+import Workout from '../styles/images/workout';
 
 const Home: React.FC = () => {
   const [ressentis, setRessentis] = useState<any[] | null>(null);
@@ -86,7 +86,9 @@ const Home: React.FC = () => {
         </div>
         <div className='home-illustration-container'>
           <img className='home-illustration-logo' src={Logo} />{' '}
-          <img className='home-illustration' src={illustrationFond} />
+          <div className='home-illustration'>
+            <Workout />
+          </div>
         </div>
         <div className='home-container--content'>
           <IonText className='home-container--content--title'>
