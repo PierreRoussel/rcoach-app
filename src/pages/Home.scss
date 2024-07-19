@@ -7,7 +7,6 @@
 .home-container {
     position: relative;
 
-
     .theme-switcher {
         position: absolute;
         z-index: 100;
@@ -18,21 +17,21 @@
     .home-illustration-container {
         display: block;
         height: 31vh;
+        background-color: var(--ciel);
         width: auto;
         position: relative;
         .home-illustration-logo {
             position: absolute;
             inset: 50%;
             transform: translateX(-50%) translateY(-82%);
-            z-index: -1;
             width: 120px;
         }
         .home-illustration {
             object-fit: contain;
             object-position: top;
-            width: 112%;
+            width: 110%;
             margin-top: -5%;
-            margin-left: -12%;
+            margin-left: -5%;
             max-width: none;
             transform: translateY(-30px);
         }

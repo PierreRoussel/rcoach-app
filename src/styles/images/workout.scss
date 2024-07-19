@@ -1,0 +1,17 @@
+:root {
+    --vert-clair: #7fd586;
+    --vert-fonce: #44a592;
+    --vetement: var(--grey-4);
+    --nuage: var(--grey-1);
+}
+
+[data-theme="dark"] {
+    // --vert-clair: #6b354c;
+    // --vert-fonce: #281f3e;
+    
+    --vert-clair: #144969;
+    --vert-fonce: #091e3d;
+
+    --vetement: #081d3a;
+    --nuage: var(--grey-3)
+}

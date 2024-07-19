@@ -19,6 +19,12 @@ html {
     "case" 1,
     "rlig" 1,
     "calt" 0;
+
+  svg {
+    path {
+      transition: all 0.2s;
+    }
+  }
 }
 
 html,

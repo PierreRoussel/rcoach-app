@@ -44,8 +44,10 @@
     --ion-text-color: var(--grey-4);
     --background: var(--grey-0);
     --ion-background-color: var(--background);
-    --icon-fill: var(--ion-text-color);
-    --icon-fill-hover: var(--grey-2);
+    
+    --icon-fill: var(--primary-l-4);
+    --icon-fill-hover: var(--primary-l-3);
+    --ciel: #a9dfeb6e;
 }
 
 [data-theme="dark"] {
@@ -59,9 +61,11 @@
     --background: var(--grey-0);
     --ion-background-color: var(--background);
     --ion-text-color: var(--grey-3);
+    --ion-toolbar-backround: var(--grey-1);
+    
     --icon-fill: var(--ion-text-color);
     --icon-fill-hover: var(--grey-4);
-    --ion-toolbar-backround: var(--grey-1);
+    --ciel: #3f3d56bb;
 }
 
 $primary-r: #fc4e39;
