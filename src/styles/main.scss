@@ -14,6 +14,7 @@ html {
   overflow-x: hidden;
   box-sizing: border-box;
   touch-action: manipulation;
+  transition: all 0.5s;
   font-feature-settings:
     "case" 1,
     "rlig" 1,
@@ -22,7 +23,7 @@ html {
 
 html,
 body {
-  background: #faf7ff;
+  background: var(--grey-0);
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,7 +33,7 @@ body {
   align-items: stretch;
   justify-content: stretch;
   margin: 0;
-  color: darken($primary, 18%);
+  color: var(--grey-4);
 
   h1 {
     font-size: clamp(16px, 6vw, 24px);
@@ -67,9 +68,6 @@ main {
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  min-height: 100dvh;
-  // minus nav height
-  height: calc(100vh - 50px);
 
   .page-title-container {
     margin-bottom: 2rem;
@@ -143,11 +141,11 @@ main {
 }
 
 a {
-  color: $primary;
+  color: var(--grey-4);
   text-decoration: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   &:visited {
-    color: lighten($primary, 5%);
+    color: var(--grey-3);
   }
 }
 
@@ -373,19 +371,19 @@ a {
 }
 
 .bg-grey-1 {
-  background-color: $grey-1;
+  background-color: var(--grey-1);
 }
 .bg-grey-2 {
-  background-color: $grey-2;
+  background-color: var(--grey-2);
 }
 .bg-grey-3 {
-  background-color: $grey-3;
+  background-color: var(--grey-3);
 }
 .bg-grey-4 {
-  background-color: $grey-4;
+  background-color: var(--grey-4);
 }
 .bg-grey-5 {
-  background-color: $grey-5;
+  background-color: var(--grey-5);
 }
 
 .color-white {
@@ -401,14 +399,14 @@ a {
   color: $fail;
 }
 .color-black {
-  color: $grey-5 !important;
+  color: var(--grey-3) !important;
 }
 .rounded {
   border-radius: 50%;
   aspect-ratio: 1/1;
 }
 .label {
-  color: rgba($primary-tertiary, 0.85);
+  color: var(--grey-3);
   font-size: 0.75rem;
   text-transform: none;
   font-style: normal;

@@ -3,7 +3,7 @@ import './Bento.scss';
 
 export default function Bento(params: { children: any; className?: string }) {
   return (
-    <div className={`bento box-shadow ${params.className || ''}`}>
+    <div className={`bento ${params.className || ''}`}>
       {params.children}
     </div>
   );

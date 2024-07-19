@@ -1,13 +1,36 @@
 @import "../styles//assets/shadow-helpers";
 
 .home-container {
-    --background: var(--grey-0);
+    position: relative;
 
-    .home-illustration {
-        width: 110vw;
-        margin-left: -5vw;
-        max-width: none;
-        transform: translateY(25px);
+    .theme-switcher {
+        position: absolute;
+        z-index: 100;
+        top: 8px;
+        right: 8px;
+    }
+
+    .home-illustration-container {
+        display: block;
+        height: 30vh;
+        width: auto;
+        position: relative;
+        .home-illustration-logo {
+            position: absolute;
+            inset: 50%;
+            transform: translateX(-50%) translateY(-78%);
+            z-index: -1;
+            width: 150px;
+        }
+        .home-illustration {
+            object-fit: contain;
+            object-position: top;
+            width: 110%;
+            margin-top: -5%;
+            margin-left: -5%;
+            max-width: none;
+            transform: translateY(25px);
+        }
     }
 
     .home-container--content--title {
@@ -19,6 +42,7 @@
     .home-container--content {
         z-index: 10;
         position: relative;
+        box-shadow: $box-shadow;
         display: flex;
         flex-direction: column;
         gap: 16px;
@@ -72,7 +96,7 @@
 
             i {
                 position: absolute;
-                color: var(--grey-0);
+                color: var(--grey-2);
                 font-size: 48px;
                 padding: 8px;
                 border: 4px solid var(--grey-0);
@@ -112,6 +136,15 @@
         .check-icon,
         .icon-circle {
             border-color: var(--primary-tertiary) !important;
+        }
+    }
+}
+
+[data-theme="dark"] {
+    .home-container {
+        .home-illustration-container {
+            .home-illustration {
+            }
         }
     }
 }

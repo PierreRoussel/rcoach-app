@@ -1,13 +1,4 @@
-import {
-  IonButton,
-  IonButtons,
-  IonCol,
-  IonContent,
-  IonFooter,
-  IonPage,
-  IonText,
-  IonToolbar,
-} from '@ionic/react';
+import { IonContent, IonFooter, IonPage, IonText } from '@ionic/react';
 import './Home.scss';
 
 import Logo from '../styles/logo.png';
@@ -30,6 +21,8 @@ import { isSameDay } from '../utils/shared/date';
 import RessentiButton from '../components/shared/buttons/RessentiButton';
 import NewsCheck from '../components/shared/checks/NewsCheck';
 import SuccessCheck from '../components/shared/checks/SuccessCheck';
+import { switchTheme } from '../theme/theme.utils';
+import ThemeSwitcher from '../components/shared/buttons/ThemeSwitcher';
 
 const Home: React.FC = () => {
   const [ressentis, setRessentis] = useState<any[] | null>(null);
@@ -88,12 +81,13 @@ const Home: React.FC = () => {
   return (
     <IonPage>
       <IonContent fullscreen={true} className='home-container'>
-        <img
-          className='home-illustration'
-          src={illustrationFond}
-          alt=''
-          width='200'
-        />
+        <div className='theme-switcher'>
+          <ThemeSwitcher />
+        </div>
+        <div className='home-illustration-container'>
+          <img className='home-illustration-logo' src={Logo} />{' '}
+          <img className='home-illustration' src={illustrationFond} />
+        </div>
         <div className='home-container--content'>
           <IonText className='home-container--content--title'>
             Votre suivi sur-mesure

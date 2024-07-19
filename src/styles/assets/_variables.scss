@@ -15,7 +15,7 @@
     --success: hsl(6, 97%, 68%);
     --fail: hsl(0, 5%, 70%);
     --grey-0: #ffffff;
-    --grey-1: #faf7ff;
+    --grey-1: #f8f8f8;
     --grey-2: #e6e6e6;
     --grey-3: #8e8c93;
     --grey-4: #5d5b62;
@@ -40,6 +40,28 @@
     --grey-3-rgb: rgb(142, 140, 147);
     --grey-4-rgb: rgb(93, 91, 98);
     --grey-5-rgb: rgb(49, 46, 52);
+
+    --ion-text-color: var(--grey-4);
+    --background: var(--grey-0);
+    --ion-background-color: var(--background);
+    --icon-fill: var(--ion-text-color);
+    --icon-fill-hover: var(--grey-2);
+}
+
+[data-theme="dark"] {
+    --grey-0: #313338;
+    --grey-1: #2b2d31;
+    --grey-2: #f2f3f5;
+    --grey-3: #b4b9c0;
+    --grey-4: #5d5b62;
+    --grey-5: #1e1f22;
+
+    --background: var(--grey-0);
+    --ion-background-color: var(--background);
+    --ion-text-color: var(--grey-3);
+    --icon-fill: var(--ion-text-color);
+    --icon-fill-hover: var(--grey-4);
+    --ion-toolbar-backround: var(--grey-1);
 }
 
 $primary-r: #fc4e39;

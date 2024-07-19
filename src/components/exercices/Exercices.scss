@@ -13,7 +13,7 @@ $tracker-height: 80px;
     aspect-ratio: 1/1;
     flex: 3;
     position: relative;
-    background: rgba($primary-l-3, 1);
+    background: transparent;
     border-radius: 12px;
     position: relative;
     z-index: 1;
@@ -85,7 +85,7 @@ $tracker-height: 80px;
 .tabs {
     display: flex;
     position: relative;
-    background-color: #fff;
+    background-color: var(--ion-toolbar-backround);
     padding: 0.75rem;
     width: 100%;
     border-radius: 99px; // just a high number to create pill effect
@@ -117,7 +117,7 @@ $tracker-height: 80px;
     transition: all 0.25s ease-in;
 
     &.bg-primary {
-        color: white;
+        color: --grey-0;
     }
 }
 
