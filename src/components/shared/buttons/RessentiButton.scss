@@ -1,7 +1,7 @@
 @import "../../../styles/assets/animations";
 
 .ressenti-button {
-    $padd: 44px;
+    $padd: 1.4em;
     $fontSize: 32px;
     $transition: 0.5s;
 
@@ -9,9 +9,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    height: calc($fontSize * 2);
     gap: 8px;
     background-color: transparent;
+
     i {
         display: flex;
         align-items: center;
