@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { loginStore } from '../../stores/login.store';
-import { isSameDay } from '../../utils/shared/date';
 import {
-  getRessentisEnergie,
   getRessentisNutrition,
   upsertUtilisateurNutrition,
 } from '../../services/ressentis.service';

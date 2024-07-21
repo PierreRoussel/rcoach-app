@@ -1,3 +1,5 @@
+import { PastEvent } from '../../services/seances.service';
+
 /**
  *
  * @param startDate
@@ -9,6 +11,9 @@ export const getTimeDiffInSeconds = (startDate: Date, endDate: Date) => {
 };
 
 export const isSameDay = (d1: any, d2: any) => {
+  d1 = new Date(d1);
+  d2 = new Date(d2);
+
   return (
     d1.getFullYear() === d2.getFullYear() &&
     d1.getDate() === d2.getDate() &&
@@ -47,11 +52,11 @@ export const fancyTimeFormat = (time: number): string => {
 export const getWeekDays = () => {
   const currDate = new Date();
   const lastWeekDates = last7DaysDate();
-  const week: DateWithLibelle[] = [];
+  const week: DateWithLibelleAndSeance[] = [];
   for (let index = 0; index < lastWeekDates.length; index++) {
     const day = lastWeekDates[index];
-    week.push({
-      libelle: day.toLocaleDateString('fr', { weekday: 'short' }),
+    week.unshift({
+      libelle: day.toLocaleDateString('fr', { weekday: 'narrow' }),
       date: day.getDate(),
       fullDate: day,
       isToday: day.getDate() === currDate.getDate(),
@@ -68,11 +73,12 @@ function last7DaysDate() {
   });
 }
 
-export interface DateWithLibelle {
+export interface DateWithLibelleAndSeance {
   libelle: string;
   date: number;
   fullDate?: Date;
   isToday: boolean;
+  seance?: PastEvent;
 }
 
 export const getDateString = (date: Date) => {
@@ -101,4 +107,14 @@ export const getDayPartString = (date: Date) => {
       break;
   }
   return partString;
+};
+
+export const setDateToMinHours = (date: Date) => {
+  date.setHours(0, 0, 0, 0);
+  return date;
+};
+
+export const setDateToMaxHours = (date: Date) => {
+  date.setHours(23, 59, 59, 59);
+  return date;
 };

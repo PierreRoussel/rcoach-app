@@ -3,9 +3,8 @@ import './Home.scss';
 
 import Logo from '../styles/logo.png';
 import pwa from '../styles/images/pwa.png';
-import illustrationFond from '../styles/images/workout.svg';
 
-import Historique from '../components/bentos/Historique';
+import Historique from '../components/bentos/historique/Historique';
 import Bento from '../components/layout/Bento';
 import Header from '../components/home/Header';
 import { Link } from 'react-router-dom';
@@ -78,7 +77,7 @@ const Home: React.FC = () => {
 
   async function energieRessentiSelected(id: any) {
     const user: User = await loginStore.get('user');
-    setIsRessentiEnergieSet(true)
+    setIsRessentiEnergieSet(true);
     upsertUtilisateurRessenti(
       user.id,
       {
@@ -87,7 +86,7 @@ const Home: React.FC = () => {
       },
       (data: any, error: any) => {
         loginStore.set('ressentis', data);
-        
+
         setTimeout(() => {
           setIsRessentisPushed(true);
         }, 510);
@@ -148,7 +147,7 @@ const Home: React.FC = () => {
             </div>
           )}
           {!isRessentiNutritionSet && <RessentiNutrition />}
-          <Bento className='border-primary-r'>
+          <Bento>
             <div className='d-flex flex-justify-between flex-align-center'>
               <div className='d-flex flex-column flex-justify-start'>
                 <i className='label'>Actualités</i>
@@ -172,7 +171,7 @@ const Home: React.FC = () => {
               </div>
             </div>
           </Bento>
-          <Bento className='bg-primary-r-gradient'>
+          <Bento className='border-primary-r'>
             <Header />
           </Bento>
         </div>

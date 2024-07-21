@@ -25,10 +25,7 @@ export async function POST(
     'date': date,
   };
 
-  const { data, error } = await supabase
-    .from('runs')
-    .insert([req])
-    .select();
+  const { data, error } = await supabase.from('runs').insert([req]).select();
   console.log('🚀 ~ error:', error);
   console.log('🚀 ~ data:', data);
 }
