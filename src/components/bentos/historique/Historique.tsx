@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { getPastSeances, PastEvent } from '../../../services/seances.service';
 import { User } from '@supabase/supabase-js';
 import { loginStore } from '../../../stores/login.store';
+import { getPastRessentis } from '../../../services/ressentis.service';
 
 export default function Historique() {
   const [pastEvents, setPastEvents] = useState<PastEvent[]>([]);
@@ -40,23 +41,53 @@ export default function Historique() {
           end: enDate.toISOString(),
         }
       );
+
+      getPastRessentis(
+        user.id,
+        (data: any, error: any) => {
+          if (error) console.error(error);
+          else setPastRessentis(data);
+        },
+        {
+          start: startDate.toISOString(),
+          end: enDate.toISOString(),
+        }
+      );
     };
     getData();
   }, []);
 
   useEffect(() => {
-    let newWeek = [...week];
     if (pastEvents && pastEvents.length > 0) {
-      for (const event of pastEvents) {
-        const dayIndex = week.findIndex((day) =>
-          isSameDay(day.fullDate, event.date_programmation)
-        );
-        newWeek[dayIndex].seance = event;
-      }
-      console.log('week', week);
-      setWeek(newWeek);
+      addKeyValueToWeekDays('seance', pastEvents);
     }
   }, [pastEvents]);
+
+  useEffect(() => {
+    if (pastRessentis && pastRessentis.length > 0) {
+      addKeyValueToWeekDays(
+        'ressentis',
+        pastRessentis,
+        'date_ressenti_utilisateur'
+      );
+    }
+  }, [pastRessentis]);
+
+  function addKeyValueToWeekDays(
+    key: string,
+    values: any[],
+    dateKey = 'date_programmation'
+  ) {
+    let newWeek = [...week];
+    for (const value of values) {
+      const dayIndex = week.findIndex((day) =>
+        isSameDay(day.fullDate, value[dateKey])
+      );
+      if (dayIndex !== -1) (newWeek[dayIndex] as any)[`${key}`] = value;
+    }
+    console.log('week', week);
+    setWeek(newWeek);
+  }
 
   return (
     <Bento className='historique-bento bg-primary-r-gradient'>
@@ -79,11 +110,26 @@ export default function Historique() {
                 <div className='historique-column-date--background'></div>
                 {day.date}
                 <div
-                  className='historique-column-date--seance'
+                  className={
+                    `historique-column-date--seance
+                    ${(day.seance && day.seance.a_ete_executee) ? ' historique-column-date--seance_check' : ''}
+                    `}
                   style={{
                     background: `${day.seance ? day.seance.couleur : ''}`,
+                    color: `${day.seance ? 'var(--grey-0)' : ''}`,
                   }}
-                ></div>
+                >
+                  <i className={`iconoir-${(day.seance && day.seance.a_ete_executee) ? 'check' : 'gym'}`}></i>
+                </div>
+                <div
+                  className='historique-column-date--ressentis'
+                  style={{
+                    background: `${day.ressentis && day.ressentis.ressenti_nutrition ? `var(--${day.ressentis.ressenti_nutrition.couleur})` : ''}`,
+                    color: `${day.ressentis && day.ressentis.ressenti_nutrition ? `var(--${day.ressentis.ressenti_nutrition.couleur}-dark)` : ''}`,
+                  }}
+                >
+                  <i className={`iconoir-cutlery`}></i>
+                </div>
               </b>
             </div>
           ))}

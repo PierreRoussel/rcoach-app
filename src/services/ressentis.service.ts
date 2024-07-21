@@ -73,3 +73,19 @@ export const getRessentisNutrition = async (callback: any) => {
     .order('index');
   return callback(data, error);
 };
+
+export const getPastRessentis = async (
+  userId: string,
+  callback: any,
+  interval?: { start: string; end: string }
+) => {
+  const actualDate = new Date();
+  actualDate.setHours(0, 0, 0);
+  const { data, error } = await supabase
+    .from(utilisateur_ressentis)
+    .select('*, ressenti_energie(*), ressenti_nutrition(*)')
+    .eq('utilisateur', userId)
+    .gte('date_ressenti_utilisateur', interval?.start || '2024-01-01')
+    .lte('date_ressenti_utilisateur', interval?.end || actualDate.toISOString())
+  callback(data, error);
+};

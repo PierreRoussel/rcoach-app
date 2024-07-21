@@ -79,6 +79,7 @@ export interface DateWithLibelleAndSeance {
   fullDate?: Date;
   isToday: boolean;
   seance?: PastEvent;
+  ressentis?: any;
 }
 
 export const getDateString = (date: Date) => {
