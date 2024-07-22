@@ -85,14 +85,16 @@ export default function Historique() {
       );
       if (dayIndex !== -1) (newWeek[dayIndex] as any)[`${key}`] = value;
     }
-    console.log('week', week);
     setWeek(newWeek);
   }
 
   return (
     <Bento className='historique-bento bg-primary-r-gradient'>
       <div className='historique-container'>
-        <h2>Mon suivi</h2>
+        <h2 className='w-100 d-flex flex-justify-between flex-align-center'>
+          Mon suivi
+          <i className='iconoir-nav-arrow-right'></i>
+        </h2>
         <div className='d-flex flex-justify-between'>
           {week.map((day) => (
             <div
@@ -110,22 +112,37 @@ export default function Historique() {
                 <div className='historique-column-date--background'></div>
                 {day.date}
                 <div
-                  className={
-                    `historique-column-date--seance
-                    ${(day.seance && day.seance.a_ete_executee) ? ' historique-column-date--seance_check' : ''}
+                  className={`historique-column-date--seance
+                    ${
+                      day.seance && day.seance.a_ete_executee
+                        ? ' historique-column-date--seance_check'
+                        : ''
+                    }
                     `}
                   style={{
                     background: `${day.seance ? day.seance.couleur : ''}`,
                     color: `${day.seance ? 'var(--grey-0)' : ''}`,
                   }}
                 >
-                  <i className={`iconoir-${(day.seance && day.seance.a_ete_executee) ? 'check' : 'gym'}`}></i>
+                  <i
+                    className={`iconoir-${
+                      day.seance && day.seance.a_ete_executee ? 'check' : 'gym'
+                    }`}
+                  ></i>
                 </div>
                 <div
                   className='historique-column-date--ressentis'
                   style={{
-                    background: `${day.ressentis && day.ressentis.ressenti_nutrition ? `var(--${day.ressentis.ressenti_nutrition.couleur})` : ''}`,
-                    color: `${day.ressentis && day.ressentis.ressenti_nutrition ? `var(--${day.ressentis.ressenti_nutrition.couleur}-dark)` : ''}`,
+                    background: `${
+                      day.ressentis && day.ressentis.ressenti_nutrition
+                        ? `var(--${day.ressentis.ressenti_nutrition.couleur}-dark)`
+                        : ''
+                    }`,
+                    color: `${
+                      day.ressentis && day.ressentis.ressenti_nutrition
+                        ? `var(--${day.ressentis.ressenti_nutrition.couleur})`
+                        : ''
+                    }`,
                   }}
                 >
                   <i className={`iconoir-cutlery`}></i>

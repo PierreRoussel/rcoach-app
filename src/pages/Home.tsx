@@ -110,7 +110,9 @@ const Home: React.FC = () => {
           <IonText className='home-container--content--title'>
             Votre suivi sur-mesure
           </IonText>
-          <Historique />
+          <Link to={'/calendrier'}>
+            <Historique />
+          </Link>
           {!isRessentiEnergieSet && choicesRessentisEnergie && (
             <div
               className={`ressentis-bento ${
@@ -158,7 +160,7 @@ const Home: React.FC = () => {
                     className='color-primary-r'
                     href='https://rcoach-admin-react.vercel.app'
                   >
-                    rcoach.app
+                    rcoach-admin-react.vercel.app
                   </a>
                 </span>
               </div>
@@ -171,7 +173,7 @@ const Home: React.FC = () => {
               </div>
             </div>
           </Bento>
-          <Bento className='border-primary-r'>
+          <Bento>
             <Header />
           </Bento>
         </div>

@@ -22,6 +22,7 @@ import Seances from './pages/seances/Seances';
 import { initStores } from './stores/store.initer';
 import { Seance } from './pages/seances/seance/Seance';
 import { RunPage } from './pages/seances/run/Run';
+import Calendrier from './pages/calendrier/Calendrier';
 
 setupIonicReact();
 
@@ -79,6 +80,9 @@ const App: React.FC = () => {
           <Route exact path='/run/:id' component={RunPage} />
           <Route exact path='/seance'>
             <Seances />
+          </Route>
+          <Route exact path='/calendrier'>
+            <Calendrier />
           </Route>
           <Route exact path='/account'>
             <AccountPage />

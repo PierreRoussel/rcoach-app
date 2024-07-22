@@ -27,6 +27,7 @@
     "iconoir": "^7.3.0",
     "ionicons": "^7.0.0",
     "react": "^18.2.0",
+    "react-calendar": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",

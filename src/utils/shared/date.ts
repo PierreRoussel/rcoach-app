@@ -51,11 +51,11 @@ export const fancyTimeFormat = (time: number): string => {
 
 export const getWeekDays = () => {
   const currDate = new Date();
-  const lastWeekDates = last7DaysDate();
+  const lastWeekDates = daysOfWeek(currDate);
   const week: DateWithLibelleAndSeance[] = [];
   for (let index = 0; index < lastWeekDates.length; index++) {
     const day = lastWeekDates[index];
-    week.unshift({
+    week.push({
       libelle: day.toLocaleDateString('fr', { weekday: 'narrow' }),
       date: day.getDate(),
       fullDate: day,
@@ -64,6 +64,21 @@ export const getWeekDays = () => {
   }
   return week;
 };
+
+function getMonday(d = new Date()) {
+  d = new Date(d);
+  var day = d.getDay(),
+    diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+  return new Date(d.setDate(diff));
+}
+
+function daysOfWeek(cursorDate = new Date()) {
+  return [...Array(7)].map((_, i) => {
+    const d = getMonday(cursorDate);
+    d.setDate(d.getDate() + i);
+    return d;
+  });
+}
 
 function last7DaysDate() {
   return [...Array(7)].map((_, i) => {

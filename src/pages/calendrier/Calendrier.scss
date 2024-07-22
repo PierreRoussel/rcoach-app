@@ -1,0 +1,176 @@
+@import "../../styles/assets/variables";
+
+.react-calendar__navigation {
+    padding: 8px;
+    padding-top: 4px;
+    padding-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: flex-start;
+
+    .react-calendar__navigation__label {
+        background-color: transparent;
+        font-weight: bold;
+        color: var(--grey-4);
+    }
+
+    .react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from {
+        text-transform: uppercase;
+    }
+
+    .react-calendar__navigation__arrow {
+        background-color: transparent;
+        color: var(--grey-3);
+        padding: 0.5em;
+        border-radius: 50%;
+        height: 0.25em;
+        width: 0.25em;
+        font-size: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.react-calendar__tile {
+    background-color: transparent;
+    font-weight: bold;
+    color: var(--grey-4);
+    text-transform: capitalize;
+    padding-block: 8px;
+
+    &.react-calendar__tile--hasActive {
+        color: var(--primary-r);
+    }
+}
+
+.react-calendar__month-view__weekdays__weekday {
+    color: var(--grey-3);
+    text-align: center;
+    font-size: 0.8rem;
+    padding-bottom: 0.5rem;
+
+    abbr {
+        border-bottom: none !important;
+        cursor: inherit !important;
+        text-decoration: none !important;
+    }
+}
+
+.react-calendar__tile.react-calendar__month-view__days__day {
+    height: 2.5rem;
+    text-align: center;
+    background-color: transparent;
+    color: var(--grey-4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 0;
+    padding-top: 0.4rem;
+    gap: 2px;
+
+    abbr {
+        border-radius: 50%;
+        width: 1.75em;
+        height: 1.75em;
+        display: flex;
+        font-weight: bold;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        transition: background 0.5s;
+    }
+
+    &.react-calendar__tile--now {
+        abbr {
+            color: var(--primary-r);
+        }
+    }
+    &.react-calendar__tile--active {
+        abbr {
+            background-color: var(--primary-r);
+            color: var(--grey-0);
+        }
+    }
+
+    .calendrier-tile-content {
+        $size: 0.5rem;
+        width: 90%;
+        gap: 2px;
+        justify-content: center;
+
+        .historique-column-date--seance {
+            width: $size;
+            height: $size;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: calc($size - 0.2rem);
+            background: rgba(0, 0, 0, 0.08);
+            color: rgba(0, 0, 0, 0.2);
+        }
+
+        .historique-column-date--seance_check {
+            opacity: 0.6;
+            position: relative;
+
+            &::after {
+                position: absolute;
+            }
+        }
+
+        .historique-column-date--ressentis {
+            width: $size;
+            height: $size;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: calc($size - 0.2rem);
+            background: rgba(0, 0, 0, 0.08);
+            color: rgba(0, 0, 0, 0.2);
+            position: relative;
+
+            > div {
+                position: absolute;
+                content: "";
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .--nutrition {
+                scale: 1.2;
+            }
+
+            .--energie {
+                clip-path: polygon(24% 49%, 58% 0, 58% 34%, 79% 34%, 41% 99%, 43% 49%);
+            }
+        }
+    }
+}
+
+.calendrier-details-ressenti {
+    display: flex;
+    position: relative;
+
+    .calendrier-details-ressenti--badge {
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 2rem !important;
+        height: 2rem;
+        flex: 2rem;
+        aspect-ratio: 1/1;
+        padding: 0;
+    }
+    .calendrier-details-ressenti--details {
+        font-size: 0.9rem;
+        
+    }
+}
