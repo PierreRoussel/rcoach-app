@@ -10,7 +10,7 @@ import { User } from '@supabase/supabase-js';
 import { loginStore } from '../../stores/login.store';
 import { getPastSeances, PastEvent } from '../../services/seances.service';
 import { getPastRessentis } from '../../services/ressentis.service';
-import { Value } from 'react-calendar/dist/cjs/shared/types';
+import { OnArgs, Value } from 'react-calendar/dist/cjs/shared/types';
 import Calendar from 'react-calendar';
 import { Link } from 'react-router-dom';
 import Bento from '../../components/layout/Bento';
@@ -23,48 +23,46 @@ export default function Calendrier() {
   const [currValueDetails, setCurrValueDetails] = useState<any>();
 
   useEffect(() => {
-    const getData = async () => {
-      const user: User = await loginStore.get('user');
-      const date = new Date();
-      const startDate = new Date(date.getFullYear(), date.getMonth(), 1);
-      const enDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-
-      getPastSeances(
-        user.id,
-        (data: any, error: any) => {
-          if (error) console.error(error);
-          else setPastEvents(data);
-        },
-        {
-          start: startDate.toISOString(),
-          end: enDate.toISOString(),
-        }
-      );
-
-      getPastRessentis(
-        user.id,
-        (data: any, error: any) => {
-          if (error) console.error(error);
-          else {
-            setPastRessentis(data);
-          }
-        },
-        {
-          start: startDate.toISOString(),
-          end: enDate.toISOString(),
-        }
-      );
-    };
-    getData();
+    getMonthData();
   }, []);
+
+  async function getMonthData(date = new Date()) {
+    const user: User = await loginStore.get('user');
+    const startDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    const enDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    getPastSeances(
+      user.id,
+      (data: any, error: any) => {
+        if (error) console.error(error);
+        else setPastEvents(data);
+      },
+      {
+        start: startDate.toISOString(),
+        end: enDate.toISOString(),
+      }
+    );
+
+    getPastRessentis(
+      user.id,
+      (data: any, error: any) => {
+        if (error) console.error(error);
+        else {
+          setPastRessentis(data);
+        }
+      },
+      {
+        start: startDate.toISOString(),
+        end: enDate.toISOString(),
+      }
+    );
+  }
 
   useEffect(() => {
     if (pastRessentis) setCurrValueDetails(getDayTileContent(new Date()));
   }, [pastRessentis]);
 
   function daySelected(event: any) {
-    console.log('🚀 ~ event:', event);
-    console.log('changement jours');
     onChange(event);
     setCurrValueDetails(getDayTileContent(event));
   }
@@ -88,6 +86,10 @@ export default function Calendrier() {
       const tileContentCompiled: any = getDayTileContent(date);
       return <CalendrierTileContent {...tileContentCompiled} />;
     }
+  }
+
+  function refreshMonthData({ action, activeStartDate, value, view }: OnArgs) {
+    getMonthData(activeStartDate || new Date());
   }
 
   return (
@@ -117,6 +119,7 @@ export default function Calendrier() {
               next2Label={null}
               tileContent={tileContent}
               onChange={(e) => daySelected(e)}
+              onActiveStartDateChange={refreshMonthData}
               value={value}
             />
             <CalendrierDayDetails {...currValueDetails}></CalendrierDayDetails>
@@ -206,9 +209,6 @@ function CalendrierDayDetails({
   ressentis: any;
   date: Date;
 }) {
-  console.log('🚀 ~ date:', date);
-  console.log('seance', seance);
-  console.log('ressentis', ressentis);
   return (
     <div className='d-flex flex-column flex-gap'>
       <h2>
