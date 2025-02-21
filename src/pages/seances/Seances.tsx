@@ -45,13 +45,13 @@ export default function Seances() {
             <div className='d-flex activites-container'>
               <Link to={`emom`} className='activites-link'>
                 <Bento className='activites-bento'>
-                  <Avatar chain={'EMOM Timer'} couleur='var(--bien)' />
+                  <Avatar chain={'EMOM Timer'} couleur='var(--bien-dark)' />
                   <div className='d-flex flex-column'>EMOM Timer</div>
                 </Bento>
               </Link>
               <Link to={`emom`} className='activites-link'>
                 <Bento className='activites-bento'>
-                  <Avatar chain={'EMOM Timer'} couleur='var(--primary-l-4)' />
+                  <Avatar chain={'EMOM Timer'} couleur='var(--primary-l-5)' />
                   <div className='d-flex flex-column'>EMOM Timer</div>
                 </Bento>
               </Link>

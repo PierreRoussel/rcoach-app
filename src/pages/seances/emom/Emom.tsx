@@ -2,7 +2,8 @@ import './styles.scss';
 import { RouteComponentProps } from 'react-router';
 import { IonContent, IonHeader, IonPage } from '@ionic/react';
 import Nav from '../../../components/layout/Nav';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import audioFile from './emom-chrono/timercomplete01.mp3';
 
 interface EmomPageProps
   extends RouteComponentProps<{
@@ -10,15 +11,21 @@ interface EmomPageProps
   }> {}
 
 export const Emom: React.FC<EmomPageProps> = () => {
-  const [seconds, setSeconds] = useState(60);
+  const [seconds, setSeconds] = useState(10);
   const [isRunning, setIsRunning] = useState(false);
   const [rounds, setRounds] = useState(0);
+  const audioRef: any = useRef(undefined);
 
   useEffect(() => {
     let interval: string | number | NodeJS.Timeout | undefined;
     if (isRunning) {
       interval = setInterval(() => {
         setSeconds((prev) => {
+          if (prev === 3) {
+            if (audioRef.current) {
+              audioRef.current.play();
+            }
+          }
           if (prev === 1) {
             setRounds((prevRounds) => prevRounds + 1);
             return 60;
@@ -90,6 +97,14 @@ export const Emom: React.FC<EmomPageProps> = () => {
             </div>
           </div>
         </div>
+        <audio ref={audioRef}>
+          <source
+            id='audio-player'
+            // name='audio-player'
+            src={audioFile}
+            type='audio/mp3'
+          />
+        </audio>
       </IonContent>
     </IonPage>
   );
