@@ -1,0 +1,68 @@
+@import "../../../../styles/assets/variables", "../../../../styles/assets/animations";
+
+.emom-chrono {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    height: 200px;
+    align-items: center;
+}
+
+#countdown {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    height: 200px;
+    width: 200px;
+    text-align: center;
+}
+
+#countdown-number { 
+    color: var(--grey-4);
+    font-size: 48px;
+    text-align: center;
+    width: 140px;
+    font-weight: 200;
+    letter-spacing: -1px;
+}
+
+.countdown {
+    position: absolute;
+    top: calc(50% - 200px);
+    left: calc(50% - 100px);
+    width: 200px;
+    height: 200px;
+    transform: rotateY(-180deg) rotateZ(-90deg) translateX(-50%);
+}
+
+.countdown circle {
+    stroke-width: 12px;
+    stroke: #f2f5f7;
+    fill: none;
+    box-shadow: 3px 4px 0 rgba(0, 0, 0, 0.2);
+    transition: stroke-dashoffset 1s ease-in-out;
+}
+
+.countdown .countdown-circle {
+    stroke-dasharray: 565px;
+    stroke-dashoffset: 565px;
+    stroke-linecap: round;
+    stroke: $primary-r;
+}
+
+.complete-repos {
+    border: 0;
+    background-color: $primary-r;
+    color: white;
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+    aspect-ratio: 1/1;
+    font-size: 4rem;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    justify-content: center;
+}

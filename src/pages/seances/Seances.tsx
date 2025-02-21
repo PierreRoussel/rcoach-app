@@ -41,6 +41,22 @@ export default function Seances() {
             <h1>Séances</h1>
           </PageHeaderIllu>
           <div className='content animate-in d-flex flex-column flex-align-start w-100 flex-gap-s'>
+            <h3>Activités</h3>
+            <div className='d-flex activites-container'>
+              <Link to={`emom`} className='activites-link'>
+                <Bento className='activites-bento'>
+                  <Avatar chain={'EMOM Timer'} couleur='var(--bien)' />
+                  <div className='d-flex flex-column'>EMOM Timer</div>
+                </Bento>
+              </Link>
+              <Link to={`emom`} className='activites-link'>
+                <Bento className='activites-bento'>
+                  <Avatar chain={'EMOM Timer'} couleur='var(--primary-l-4)' />
+                  <div className='d-flex flex-column'>EMOM Timer</div>
+                </Bento>
+              </Link>
+            </div>
+            <h3>Séances programmées</h3>
             {seances?.map((seance, index) => {
               const isToday =
                 new Date(seance.date_programmation).setHours(0, 0, 0, 0) ===
@@ -48,7 +64,9 @@ export default function Seances() {
               return (
                 <>
                   {isToday && index == 0 && (
-                    <span className='is-today-label' style={{ color: '#888' }}>Séance(s) du jour</span>
+                    <span className='is-today-label' style={{ color: '#888' }}>
+                      Séance(s) du jour
+                    </span>
                   )}
                   <Link
                     className={`w-100 ${

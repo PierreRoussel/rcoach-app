@@ -1,0 +1,52 @@
+.emom {
+    --emom-color-accent: var(--bien);
+    --emom-color: var(--bien-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5vh;
+    .timer-container {
+        margin: 20px 0;
+        position: relative;
+    }
+
+    .timer-circle {
+        transform: rotate(-90deg); /* Start from top */
+    }
+
+    .timer-circle-bg {
+        fill: none;
+        stroke: var(--grey-1);
+        stroke-width: 10;
+    }
+
+    .timer-circle-progress {
+        fill: none;
+        stroke: var(--emom-color);
+        stroke-width: 10;
+        transition: stroke-dashoffset 1s linear;
+    }
+
+    .timer-text {
+        transform: rotate(90deg) translate(0, -300px); /* Counteract the SVG rotation */
+        font-size: 4rem;
+        fill: var(--grey-2);
+        text-anchor: middle;
+        dominant-baseline: middle;
+    }
+
+    .controls button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        background-color: var(--emom-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .controls button:hover {
+        background-color: var(--emom-color-accent);
+    }
+}

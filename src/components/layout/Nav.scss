@@ -1,11 +1,12 @@
 .nav {
+    --btn-width: 1rem;
     padding: 0.5rem;
     height: 50px;
     z-index: 100;
     position: absolute;
     left: 0;
     top: 0;
-
+    width: 100%;
     .btn {
         &.reverse {
             aspect-ratio: 1/1;
@@ -13,11 +14,18 @@
             justify-content: center;
             box-shadow: none;
             font-size: 1.4rem;
-            height: 1rem;
-            width: 1rem;
+            height: var(--btn-width);
+            width: var(--btn-width);
             background-color: rgba(#faf7ff, 0.2);
             padding: 1rem;
             border: 0;
         }
+    }
+
+    h1 {
+        text-align: center;
+        margin: 0 auto;
+        color: var(--grey-4);
+        transform: translateX(calc(var(--btn-width) * -1));
     }
 }

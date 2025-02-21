@@ -15,3 +15,46 @@ a.seance-today {
         }
     }
 }
+
+.activites-container {
+    display: flex;
+    gap: var(--gap);
+    justify-content: flex-start;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+
+    .activites-link {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50%;
+        aspect-ratio: 1/1;
+
+        &:nth-child(1) {
+            .activites-bento {
+                color: var(--bien-dark);
+                outline-color: var(--bien-dark);
+            }
+        }
+
+        &:nth-child(2) {
+            .activites-bento {
+                color: var(--primary-l-5);
+                outline-color: var(--primary-l-4);
+            }
+        }
+    }
+
+    .activites-bento {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: var(--gap-l);
+        outline: 1px solid;
+    }
+}

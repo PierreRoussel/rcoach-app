@@ -23,6 +23,7 @@ import { initStores } from './stores/store.initer';
 import { Seance } from './pages/seances/seance/Seance';
 import { RunPage } from './pages/seances/run/Run';
 import Calendrier from './pages/calendrier/Calendrier';
+import { Emom } from './pages/seances/emom/Emom';
 
 setupIonicReact();
 
@@ -72,6 +73,7 @@ const App: React.FC = () => {
               return session ? <Home /> : <LoginPage />;
             }}
           />
+          <Route exact path='/emom' component={Emom} />
           <Route exact path='/journal/:id' component={RecapRun} />
           <Route exact path='/journal'>
             <Journal />
